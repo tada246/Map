@@ -1,0 +1,11 @@
+{
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+        "site": "map-tane",
+        "public": "dist",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    }
+}

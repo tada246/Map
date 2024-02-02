@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // notices
+    
+    function isValidNotice(data) {
+    	return data.size() == 6
+      && 'id' in data && data.id is string
+      && 'timestamp' in data && data.timestamp is timestamp
+      && 'title' in data && data.title is string
+      && 'type' in data && data.type is string
+      && 'writer' in data && data.writer is list
+      && 'content' in data && data.content is string
+    }
+  
+  	match /notices/{noticeId} {
+    	allow create: if isAuthenticated() && isValidNotice(request.resource.data);
+      allow read: if true;
+		}
+    
+    match /images/{imageId} {
+    	allow create, read: if isAuthenticated();
+    }
+    
+    match /events/{eventId} {
+    	allow write: if isAuthenticated();
+      allow read: if true;
+    }
+  }
+}
