@@ -47,3 +47,9 @@ yarn run dev
 ```
 yarn run build
 ```
+
+## デプロイ
+
+```
+firebase deploy --only hosting:map-tane
+```
