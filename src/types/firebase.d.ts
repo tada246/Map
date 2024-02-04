@@ -24,7 +24,7 @@ export type Place = {
     imageURL: string;
 };
 
-export type floor = {
+export type Floor = {
     id: string;
     name: string;
     order: number;
