@@ -20,6 +20,10 @@
 
 <img src='https://firebasestorage.googleapis.com/v0/b/tane-project.appspot.com/o/documents%2Fsystem-configuration-06.jpg?alt=media&token=7a9b5280-63a2-41d2-b4ea-17c64c7a3349' />
 
+## その他
+
+-   アイコン：Font Awesome 6
+
 # 環境変数
 
 .env ファイル
