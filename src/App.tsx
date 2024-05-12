@@ -1,25 +1,31 @@
 import { Route, Routes } from 'react-router-dom';
-import { Form, Home, Information, Map, NotFound } from './pages';
-import AboutRoot from './components/layout/AboutRoot';
-import AppRoot from './components/layout/AppRoot';
+import {
+    MapPage,
+    EventsPage,
+    NotFound,
+    TopPage,
+    FormsPage,
+    DetailPage,
+    AboutPage,
+    PrivacyPage,
+    EntertainmentPage,
+} from './pages';
 
 export default function App() {
     return (
         <Routes>
-            <Route path='/' element={<AboutRoot children={<Home />} />} />
+            <Route path='/' element={<TopPage />} />
+            <Route path='/events' element={<EventsPage />} />
+            <Route path='/events/:eventId' element={<MapPage />} />
+            <Route path='/events/:eventId/detail' element={<DetailPage />} />
+            <Route path='/events/:eventId/form' element={<FormsPage />} />
             <Route
-                path='/app/:id'
-                element={<AppRoot children={<Map />} isWithoutPadding />}
+                path='/events/:eventId/list'
+                element={<EntertainmentPage />}
             />
-            <Route
-                path='/app/:id/form'
-                element={<AppRoot children={<Form />} />}
-            />
-            <Route
-                path='/app/:id/info'
-                element={<AppRoot children={<Information />} />}
-            />
-            <Route path='*' element={<AboutRoot children={<NotFound />} />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/privacy' element={<PrivacyPage />} />
+            <Route path='*' element={<NotFound />} />
         </Routes>
     );
 }
