@@ -1,6 +1,17 @@
 import { Timestamp } from 'firebase/firestore';
+import { authority } from '../store/authority';
+import { message_type, writer } from '../store/notice';
 
-export type Running = {
+type AdminUser = {
+    id: string;
+    name: string;
+    photoURL: string;
+    authority: (typeof authority)[number]['id'];
+    mail: string;
+    timestamp: Timestamp;
+};
+
+type Event = {
     id: string;
     isPublic: boolean;
     name: string;
@@ -14,7 +25,30 @@ export type Running = {
     mapImageURL: string;
 };
 
-export type Place = {
+type Image = {
+    id: string;
+    url: string;
+    timestamp: Timestamp;
+};
+
+type Notice = {
+    id: string;
+    timestamp: Timestamp;
+    title: string;
+    type: (typeof message_type)[number]['id'];
+    writer: (typeof writer)[number][];
+    content: string;
+};
+
+type Form = {
+    id: string;
+    name: string;
+    order: number;
+    url: string;
+    content: string;
+};
+
+type Place = {
     id: string;
     name: string;
     location: {
@@ -24,29 +58,38 @@ export type Place = {
     imageURL: string;
 };
 
-export type Floor = {
+type Floor = {
     id: string;
     name: string;
     order: number;
+    mapImageURL?: string;
 };
 
-export type Event = {
+type Entertainment = {
     id: string;
     name: string;
-    overview: string;
+    explanation: string;
     imageURL: string;
     order: number;
-    explanation: string;
+    overview: string;
     date: {
         start: Timestamp;
         end: Timestamp;
     };
+    place?: string;
+    location?: {
+        x: number;
+        y: number;
+    };
 };
 
-export type Form = {
-    id: string;
-    name: string;
-    order: number;
-    url: string;
-    content: string;
+export type {
+    AdminUser,
+    Event,
+    Image,
+    Notice,
+    Form,
+    Place,
+    Floor,
+    Entertainment,
 };
