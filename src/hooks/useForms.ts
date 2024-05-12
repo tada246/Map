@@ -1,30 +1,29 @@
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { Form } from '../types/firebase';
 import { db } from '../features/firebase';
-import useSWR from 'swr';
+import { Form } from '../types/firebase';
+import useSWRImmutable from 'swr/immutable';
 
-async function getEventList(id: string) {
+async function getForms(eventId: string) {
     const q = query(
-        collection(db, 'events', id, 'forms'),
+        collection(db, 'events', eventId, 'forms'),
         orderBy('order', 'asc')
     );
     const querySnapshot = await getDocs(q);
 
     const result: Form[] = [];
     querySnapshot.forEach((doc: { data: Function }) => {
-        result.push(doc.data());
+        result.push(doc.data() as Form);
     });
 
     return result;
 }
 
 export default function useForms(eventId: string) {
-    const { data, isLoading, error } = useSWR(
-        ['/api/form', eventId],
-        ([_, params]) => getEventList(params),
+    const { data, isLoading, error } = useSWRImmutable(
+        ['/api/forms', eventId],
+        ([_, key]) => getForms(key),
         {
-            revalidateOnFocus: false,
-            errorRetryInterval: 12000,
+            revalidateIfStale: false,
         }
     );
 
