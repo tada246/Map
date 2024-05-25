@@ -4,7 +4,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import Layout from './router/Layout.tsx';
 import { SWRConfig } from 'swr';
-import { localStorageProvider } from './features/cacheProvider.tsx';
+import { localStorageProvider } from './router/cacheProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
