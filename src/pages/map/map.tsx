@@ -1,7 +1,7 @@
-import { Button, Image, Tooltip } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { Place } from '../../types/firebase';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { IoAdd, IoRemove, IoScan, IoStorefront } from 'react-icons/io5';
+import { IoAdd, IoRemove, IoScan } from 'react-icons/io5';
 import { Fragment } from 'react';
 
 type Props = {
@@ -29,55 +29,32 @@ export default function MainMap(props: Props) {
                                     />
                                     <div className='w-full h-full absolute top-0 left-0'>
                                         {props.places.map((place, index) => (
-                                            <Tooltip
-                                                content={
-                                                    <div className='w-60 p-3 rounded-large'>
-                                                        <p className='text-lg font-bold'>
-                                                            {place.name}
-                                                        </p>
-                                                        <Image
-                                                            src={place.imageURL}
-                                                            width={400}
-                                                            height={200}
-                                                            className='w-full aspect-video object-cover rounded-large mt-2'
-                                                            isBlurred
-                                                        />
-                                                        <Button
-                                                            fullWidth
-                                                            className='mt-2'
-                                                            startContent={
-                                                                <IoStorefront />
-                                                            }
-                                                            onClick={() =>
-                                                                props.setSelectedPlace(
-                                                                    place
-                                                                )
-                                                            }
-                                                        >
-                                                            詳細を見る
-                                                        </Button>
-                                                    </div>
-                                                }
-                                                showArrow
+                                            <button
                                                 key={index}
+                                                className={`md:w-3 md:h-3 w-2 h-2 absolute bg-primary/50 rounded-full -translate-x-1/2 -translate-y-1/2`}
+                                                style={{
+                                                    top: `${place.location.y}%`,
+                                                    left: `${place.location.x}%`,
+                                                }}
+                                                onClick={() =>
+                                                    props.setSelectedPlace(
+                                                        place
+                                                    )
+                                                }
                                             >
-                                                <button
-                                                    className={`md:w-3 md:h-3 w-2 h-2 absolute bg-primary rounded-full -translate-x-1/2 -translate-y-1/2`}
-                                                    style={{
-                                                        top: `${place.location.y}%`,
-                                                        left: `${place.location.x}%`,
-                                                    }}
-                                                    onClick={() =>
-                                                        props.setSelectedPlace(
-                                                            place
-                                                        )
-                                                    }
-                                                >
-                                                    <p className='md:text-[0.75rem] text-[0.5rem] whitespace-nowrap -translate-x-1/2 md:-translate-y-6 -translate-y-4 absolute left-1/2'>
-                                                        {place.name}
-                                                    </p>
-                                                </button>
-                                            </Tooltip>
+                                                <p className='md:text-[0.75rem] text-[0.5rem] whitespace-nowrap -translate-x-1/2 md:translate-y-4 translate-y-2 absolute left-1/2'>
+                                                    {place.name}
+                                                </p>
+                                                <div className='absolute left-1/2 -translate-x-1/2 -translate-y-16 w-16 h-16 block'>
+                                                    <img
+                                                        src={place.imageURL}
+                                                        alt=''
+                                                        width='auto'
+                                                        height='auto'
+                                                        className='w-16 h-16 rounded-full border-2 border-primary/50 object-cover'
+                                                    />
+                                                </div>
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
