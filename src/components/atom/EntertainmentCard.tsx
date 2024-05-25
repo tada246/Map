@@ -22,7 +22,7 @@ export default function EntertainmentCard(props: Props) {
 
     return (
         <div className='bg-default-50 shadow-medium rounded-large p-4 items-center'>
-            <div className='flex gap-3'>
+            <div className='flex gap-3 items-center'>
                 <div className='w-20 h-20 aspect-square'>
                     <Image
                         src={d.imageURL}
@@ -36,7 +36,28 @@ export default function EntertainmentCard(props: Props) {
                     <h1 className='text-lg font-bold'>{d.name}</h1>
                     <p className='text-sm'>{d.overview}</p>
                     <div className='flex gap-2 mt-1'>
-                        <Chip size='sm'>
+                        <Chip
+                            size='sm'
+                            color={
+                                getEventStatus({
+                                    start: new Date(
+                                        d.date.start.seconds * 1000
+                                    ),
+                                    end: new Date(d.date.end.seconds * 1000),
+                                }) === '開催中'
+                                    ? 'primary'
+                                    : getEventStatus({
+                                          start: new Date(
+                                              d.date.start.seconds * 1000
+                                          ),
+                                          end: new Date(
+                                              d.date.end.seconds * 1000
+                                          ),
+                                      }) === '開催前'
+                                    ? 'secondary'
+                                    : 'default'
+                            }
+                        >
                             {getEventStatus({
                                 start: new Date(d.date.start.seconds * 1000),
                                 end: new Date(d.date.end.seconds * 1000),
@@ -93,7 +114,7 @@ export default function EntertainmentCard(props: Props) {
             </div>
             {isOpen && (
                 <div className='mt-2 p-3 bg-default-200 rounded-large'>
-                    <p className='font-bold'>イベントの説明</p>
+                    <p className='font-bold mb-1'>イベントの説明</p>
                     {d.explanation.split('\n').map((line, i) => (
                         <p key={i}>{line}</p>
                     ))}
