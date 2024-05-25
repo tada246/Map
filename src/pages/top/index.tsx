@@ -86,9 +86,9 @@ export default function Page() {
                     alt='image'
                     className='md:w-80 md:h-80 aspect-square w-full object-cover object-center rounded-lg'
                 />
-                <div>
+                <div className='w-full'>
                     <div className='max-w-lg'>
-                        <h1 className='md:text-6xl text-4xl font-bold whitespace-nowrap'>
+                        <h1 className='md:text-6xl text-4xl font-bold whitespace-nowrap break-keep'>
                             桐光学園の
                             <wbr />
                             体験イベントを
