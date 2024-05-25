@@ -1,11 +1,18 @@
-import { Button, Divider, Image } from '@nextui-org/react';
+import { Button, Chip, Divider, Image } from '@nextui-org/react';
 import useEntertainment from '../../hooks/useEntertainment';
 import { Entertainment, Floor, Place } from '../../types/firebase';
-import { IoCaretDownOutline, IoClose } from 'react-icons/io5';
+import {
+    IoAdd,
+    IoCaretDownOutline,
+    IoClose,
+    IoInformationCircleOutline,
+    IoRemove,
+} from 'react-icons/io5';
 import { Drawer } from 'vaul';
 import useWindowSize from '../../hooks/useWindowSize';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
 type Props = {
     eventId: string;
@@ -60,7 +67,7 @@ function DetailDesktop(props: ContentProps) {
     console.log(data);
 
     return (
-        <div className='hidden md:block w-[28rem] h-[100svh] left-[20rem] top-0 bg-white/40 fixed backdrop-blur-lg p-6 shadow-lg overflow-y-auto'>
+        <div className='hidden md:block w-[28rem] h-[100svh] left-[20rem] top-0 bg-white/60 fixed backdrop-blur-lg p-6 shadow-lg overflow-y-auto'>
             <div>
                 <Button
                     onClick={() => props.setSelectedPlace(null)}
@@ -78,47 +85,24 @@ function DetailDesktop(props: ContentProps) {
                 isBlurred
             />
             <h1 className='text-2xl font-bold mt-2'>{place?.name}</h1>
-            <div className='flex flex-col mt-8 gap-6'>
+            <div className='flex flex-col mt-8 gap-16'>
                 {data.map((floor, index) => (
                     <div key={index}>
-                        <h2 className='text-lg font-bold'>{floor.name}</h2>
+                        <h2 className='text-lg font-bold'>
+                            {place?.name} {floor.name}
+                        </h2>
                         {floor.mapImageURL && (
-                            <div className='mt-4 overflow-hidden relative outline outline-1 outline-black/10 rounded-medium'>
-                                <img
-                                    src={floor.mapImageURL}
-                                    alt=''
-                                    className='w-full aspect-[3/2] object-cover object-center'
-                                />
-                                <div className='w-full h-full absolute top-0 left-0'>
-                                    {floor.events.map(
-                                        (place) =>
-                                            place.location && (
-                                                <div key={place.id}>
-                                                    <div
-                                                        className='p-2 absolute bg-primary rounded-md -translate-x-1/2 -translate-y-1/2 max-w-1/3 line-clamp-1'
-                                                        style={{
-                                                            left: `${place.location.x}%`,
-                                                            top: `${place.location.y}%`,
-                                                        }}
-                                                    >
-                                                        <p className='text-sm text-white'>
-                                                            {place.place}
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        className='absolute -translate-x-1/2 -translate-y-10 bg-white text-tiny rounded-full p-1 shadow-medium'
-                                                        style={{
-                                                            left: `${place.location.x}%`,
-                                                            top: `${place.location.y}%`,
-                                                        }}
-                                                    >
-                                                        <p>{place.name}</p>
-                                                    </div>
-                                                </div>
-                                            )
-                                    )}
+                            <>
+                                <FloorMap floor={floor} />
+                                <div className='mt-2 mb-6'>
+                                    <div className='flex gap-1 items-center'>
+                                        <IoInformationCircleOutline size={16} />
+                                        <p className='text-sm'>
+                                            ズームイン/ズームアウトで地図を操作できます。
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            </>
                         )}
                         <div className='flex flex-col gap-3 mt-2'>
                             {floor.events.map((event, index) => (
@@ -213,60 +197,31 @@ function DetailDrawer(props: ContentProps) {
                             </div>
                         )}
                         {snap === 1 && !!data && (
-                            <div className='mt-4 flex flex-col gap-6'>
+                            <div className='mt-12 flex flex-col gap-20'>
                                 {data?.map((floor, index) => (
                                     <div key={index}>
-                                        <h2 className='text-lg font-bold'>
-                                            {floor.name}
-                                        </h2>
-
+                                        <div className='flex gap-2 items-center'>
+                                            <h2 className='text-xl font-bold'>
+                                                {place?.name} {floor.name}{' '}
+                                            </h2>
+                                            <Chip size='sm' className=''>
+                                                {floor.events.length}件
+                                            </Chip>
+                                        </div>
                                         {floor.mapImageURL && (
-                                            <div className='mt-4 overflow-hidden relative outline outline-1 outline-black/10 rounded-medium'>
-                                                <img
-                                                    src={floor.mapImageURL}
-                                                    alt=''
-                                                    className='w-full aspect-[3/2] object-cover object-center'
-                                                />
-                                                <div className='w-full h-full absolute top-0 left-0'>
-                                                    {floor.events.map(
-                                                        (place) =>
-                                                            place.location && (
-                                                                <div
-                                                                    key={
-                                                                        place.id
-                                                                    }
-                                                                >
-                                                                    <div
-                                                                        className='p-2 absolute bg-primary rounded-md -translate-x-1/2 -translate-y-1/2 max-w-1/3 line-clamp-1'
-                                                                        style={{
-                                                                            left: `${place.location.x}%`,
-                                                                            top: `${place.location.y}%`,
-                                                                        }}
-                                                                    >
-                                                                        <p className='text-sm text-white'>
-                                                                            {
-                                                                                place.place
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-                                                                    <div
-                                                                        className='absolute -translate-x-1/2 -translate-y-10 bg-white text-tiny rounded-full p-1 shadow-medium'
-                                                                        style={{
-                                                                            left: `${place.location.x}%`,
-                                                                            top: `${place.location.y}%`,
-                                                                        }}
-                                                                    >
-                                                                        <p>
-                                                                            {
-                                                                                place.name
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                    )}
+                                            <>
+                                                <FloorMap floor={floor} />
+                                                <div className='mt-2 mb-6'>
+                                                    <div className='flex gap-1 items-center'>
+                                                        <IoInformationCircleOutline
+                                                            size={16}
+                                                        />
+                                                        <p className='text-sm'>
+                                                            ズームイン/ズームアウトで地図を操作できます。
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </>
                                         )}
                                         <div className='mt-2 flex gap-2 flex-col'>
                                             {floor.events.map(
@@ -288,5 +243,87 @@ function DetailDrawer(props: ContentProps) {
                 <Drawer.Overlay />
             </Drawer.Portal>
         </Drawer.Root>
+    );
+}
+
+function FloorMap({ floor }: { floor: DataType }) {
+    return (
+        <div className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative overflow-hidden'>
+            <TransformWrapper initialScale={1.5} centerOnInit>
+                {(utils) => (
+                    <Fragment>
+                        <Controls {...utils} />
+                        <TransformComponent>
+                            <div className='relative'>
+                                <img
+                                    src={floor.mapImageURL}
+                                    alt=''
+                                    className='w-full aspect-[3/2] object-cover object-center'
+                                />
+                                <div className='w-full h-full absolute top-0 left-0'>
+                                    {floor.events.map(
+                                        (place) =>
+                                            place.location && (
+                                                <div key={place.id}>
+                                                    <div
+                                                        className='p-1 absolute bg-primary rounded-full -translate-x-1/2 -translate-y-1/2 w-3 h-3'
+                                                        style={{
+                                                            left: `${place.location.x}%`,
+                                                            top: `${place.location.y}%`,
+                                                        }}
+                                                    />
+                                                    <div
+                                                        className='absolute -translate-x-1/2 -translate-y-10 w-10 h-10'
+                                                        style={{
+                                                            left: `${place.location.x}%`,
+                                                            top: `${place.location.y}%`,
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={place.imageURL}
+                                                            width={16}
+                                                            height={16}
+                                                            className='w-10 h-10 border-2 border-primary rounded-full bg-white shadow-medium object-cover object-center'
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        className='absolute -translate-x-1/2 translate-y-2 md:text-[8px] text-tiny max-w-10 line-clamp-1'
+                                                        style={{
+                                                            left: `${place.location.x}%`,
+                                                            top: `${place.location.y}%`,
+                                                        }}
+                                                    >
+                                                        <p>{place.place}</p>
+                                                    </div>
+                                                </div>
+                                            )
+                                    )}
+                                </div>
+                            </div>
+                        </TransformComponent>
+                    </Fragment>
+                )}
+            </TransformWrapper>
+        </div>
+    );
+}
+
+function Controls({
+    zoomIn,
+    zoomOut,
+}: {
+    zoomIn: () => void;
+    zoomOut: () => void;
+    resetTransform: () => void;
+}) {
+    return (
+        <div className=' absolute p-2 rounded-medium shadow-medium right-2 bottom-2 flex gap-2 bg-white/80 backdrop-blur-lg z-40'>
+            <Button isIconOnly size='sm' onClick={() => zoomIn()}>
+                <IoAdd />
+            </Button>
+            <Button isIconOnly size='sm' onClick={() => zoomOut()}>
+                <IoRemove />
+            </Button>
+        </div>
     );
 }
