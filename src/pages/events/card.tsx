@@ -68,7 +68,7 @@ export function EventCard(props: Props) {
                 </div>
                 <NextUILink
                     size='sm'
-                    href={encodeURI(googleCalendarLink)}
+                    href={googleCalendarLink}
                     isExternal
                     showAnchorIcon
                     className='mt-1'
