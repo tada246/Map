@@ -1,0 +1,10 @@
+export { default as NotFound } from './notFound';
+export { default as TopPage } from './top';
+export { default as ErrorPage } from './error';
+export { default as EventsPage } from './events';
+export { default as MapPage } from './map';
+export { default as DetailPage } from './detail';
+export { default as FormsPage } from './forms';
+export { default as AboutPage } from './about';
+export { default as PrivacyPage } from './privacy';
+export { default as EntertainmentPage } from './entertainment';

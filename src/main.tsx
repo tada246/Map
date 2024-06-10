@@ -1,10 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+import Layout from './router/Layout.tsx';
+import { SWRConfig } from 'swr';
+import { localStorageProvider } from './router/cacheProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <BrowserRouter>
+        <SWRConfig value={{ provider: localStorageProvider }}>
+            <Layout>
+                <App />
+            </Layout>
+        </SWRConfig>
+    </BrowserRouter>
+);

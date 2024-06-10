@@ -1,0 +1,95 @@
+import { Timestamp } from 'firebase/firestore';
+import { authority } from '../store/authority';
+import { message_type, writer } from '../store/notice';
+
+type AdminUser = {
+    id: string;
+    name: string;
+    photoURL: string;
+    authority: (typeof authority)[number]['id'];
+    mail: string;
+    timestamp: Timestamp;
+};
+
+type Event = {
+    id: string;
+    isPublic: boolean;
+    name: string;
+    link: string;
+    date: {
+        start: Timestamp;
+        end: Timestamp;
+    };
+    imageURL: string;
+    overview: string;
+    mapImageURL: string;
+};
+
+type Image = {
+    id: string;
+    url: string;
+    timestamp: Timestamp;
+};
+
+type Notice = {
+    id: string;
+    timestamp: Timestamp;
+    title: string;
+    type: (typeof message_type)[number]['id'];
+    writer: (typeof writer)[number][];
+    content: string;
+};
+
+type Form = {
+    id: string;
+    name: string;
+    order: number;
+    url: string;
+    content: string;
+};
+
+type Place = {
+    id: string;
+    name: string;
+    location: {
+        x: number;
+        y: number;
+    };
+    imageURL: string;
+};
+
+type Floor = {
+    id: string;
+    name: string;
+    order: number;
+    mapImageURL?: string;
+};
+
+type Entertainment = {
+    id: string;
+    name: string;
+    explanation: string;
+    imageURL: string;
+    order: number;
+    overview: string;
+    date: {
+        start: Timestamp;
+        end: Timestamp;
+    };
+    place?: string;
+    location?: {
+        x: number;
+        y: number;
+    };
+};
+
+export type {
+    AdminUser,
+    Event,
+    Image,
+    Notice,
+    Form,
+    Place,
+    Floor,
+    Entertainment,
+};
