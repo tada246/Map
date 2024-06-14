@@ -9,11 +9,11 @@ export default function AnalyticsProvider(props: {
     const location = useLocation();
 
     useEffect(() => {
-        if (import.meta.env.DEV) {
+        if (import.meta.env.DEV || !import.meta.env.VITE_ANALYTICS_ID) {
             return;
         }
 
-        ReactGA.initialize(process.env.VITE_ANALYTICS_ID || '');
+        ReactGA.initialize(import.meta.env.VITE_ANALYTICS_ID || '');
         ReactGA.send({
             hitType: 'pageview',
             page: location.pathname + location.search,
