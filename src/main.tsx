@@ -5,13 +5,16 @@ import { BrowserRouter } from 'react-router-dom';
 import Layout from './router/Layout.tsx';
 import { SWRConfig } from 'swr';
 import { localStorageProvider } from './router/cacheProvider.tsx';
+import AnalyticsProvider from './router/AnalyticsProvider..tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
-        <SWRConfig value={{ provider: localStorageProvider }}>
-            <Layout>
-                <App />
-            </Layout>
-        </SWRConfig>
+        <AnalyticsProvider>
+            <SWRConfig value={{ provider: localStorageProvider }}>
+                <Layout>
+                    <App />
+                </Layout>
+            </SWRConfig>
+        </AnalyticsProvider>
     </BrowserRouter>
 );
