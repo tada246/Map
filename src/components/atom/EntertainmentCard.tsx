@@ -23,14 +23,21 @@ export default function EntertainmentCard(props: Props) {
     return (
         <div className='bg-default-50 shadow-medium rounded-large p-4 items-center'>
             <div className='flex gap-3 items-center'>
-                <div className='w-20 h-20 aspect-square'>
+                <div className='w-20 h-20 aspect-square relative'>
                     <Image
                         src={d.imageURL}
                         width={300}
                         height={300}
-                        className='object-cover aspect-square'
+                        className='object-cover aspect-square absolute top-0 left-0 z-0'
                         isBlurred
                     />
+                    {!props.isList && (
+                        <div className='absolute top-0 bg-secondary z-10 w-6 h-6 rounded-br-large rounded-tl-large flex justify-center items-center'>
+                            <p className='text-sm text-white font-bold'>
+                                {props.d.order}
+                            </p>
+                        </div>
+                    )}
                 </div>
                 <div className='flex-1'>
                     <h1 className='text-lg font-bold'>{d.name}</h1>
