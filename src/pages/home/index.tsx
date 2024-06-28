@@ -8,7 +8,6 @@ import {
     IoServer,
     IoSettings,
     IoShuffle,
-    IoSparkles,
 } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import useEvent from '../../hooks/useEvent';
