@@ -9,6 +9,7 @@ import {
     AboutPage,
     PrivacyPage,
     EntertainmentPage,
+    HomePage,
 } from './pages';
 
 export default function App() {
@@ -16,7 +17,8 @@ export default function App() {
         <Routes>
             <Route path='/' element={<TopPage />} />
             <Route path='/events' element={<EventsPage />} />
-            <Route path='/events/:eventId' element={<MapPage />} />
+            <Route path='/events/:eventId' element={<HomePage />} />
+            <Route path='/events/:eventId/map' element={<MapPage />} />
             <Route path='/events/:eventId/detail' element={<DetailPage />} />
             <Route path='/events/:eventId/form' element={<FormsPage />} />
             <Route

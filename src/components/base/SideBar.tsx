@@ -24,11 +24,18 @@ type Menu = {
 
 const menu: Menu[] = [
     {
+        name: 'ホーム',
+        shortName: 'ホーム',
+        icon: <IoHome />,
+        largeIcon: <IoHome size={20} />,
+        path: '/',
+    },
+    {
         name: 'マップ',
         shortName: 'マップ',
         icon: <IoMap />,
         largeIcon: <IoMap size={20} />,
-        path: '/',
+        path: '/map',
     },
     {
         name: '催し物リスト',
