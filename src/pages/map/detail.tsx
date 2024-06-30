@@ -64,8 +64,6 @@ function DetailDesktop(props: ContentProps) {
 
     if (!place || !data) return <div></div>;
 
-    console.log(data);
-
     return (
         <div className='hidden md:block w-[28rem] h-[100svh] left-[20rem] top-0 bg-white/60 fixed backdrop-blur-lg p-6 shadow-lg overflow-y-auto'>
             <div>
@@ -322,8 +320,11 @@ function FloorMap({ floor }: { floor: DataType }) {
                                                             top: `${places[0].location.y}%`,
                                                         }}
                                                     >
-                                                        {places.map((p) => (
-                                                            <div className='text-[0.5rem] bg-secondary text-white w-3 h-3 flex justify-center items-center rounded-full'>
+                                                        {places.map((p, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className='text-[0.5rem] bg-secondary text-white w-3 h-3 flex justify-center items-center rounded-full'
+                                                            >
                                                                 <p className='text-center'>
                                                                     {p.order}
                                                                 </p>
