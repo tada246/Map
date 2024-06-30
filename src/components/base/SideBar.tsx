@@ -9,6 +9,7 @@ import {
     IoInformation,
     IoList,
     IoMap,
+    IoMegaphone,
 } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useEvent from '../../hooks/useEvent';
@@ -35,6 +36,13 @@ const menu: Menu[] = [
         icon: <IoMap />,
         largeIcon: <IoMap size={20} />,
         path: '/map',
+    },
+    {
+        name: 'リアルタイムアナウンス',
+        shortName: 'アナウンス',
+        icon: <IoMegaphone />,
+        largeIcon: <IoMegaphone size={20} />,
+        path: '/messages',
     },
     {
         name: '催し物リスト',
