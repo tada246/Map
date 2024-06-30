@@ -4,12 +4,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 import { useZxing } from 'react-zxing';
 import { APP_URL } from '../../store/app';
 import { useNavigate } from 'react-router-dom';
-import {
-    IoChevronBack,
-    IoHome,
-    IoInformation,
-    IoQrCode,
-} from 'react-icons/io5';
+import { IoChevronBack, IoQrCode } from 'react-icons/io5';
 import { Button } from '@nextui-org/react';
 import useCameraPermission from '../../hooks/useCameraPermission';
 
