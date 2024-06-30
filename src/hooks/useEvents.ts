@@ -19,8 +19,6 @@ async function getEvents() {
     );
     const querySnapshot = await getDocs(q);
 
-    console.log('Go to the server to fetch events');
-
     const result: Event[] = [];
     querySnapshot.forEach((doc: { data: Function }) => {
         result.push(doc.data());
