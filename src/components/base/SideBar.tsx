@@ -45,18 +45,11 @@ const menu: Menu[] = [
         path: '/list',
     },
     {
-        name: 'イベントについて',
+        name: '概要とアンケート',
         shortName: '概要',
         icon: <IoInformation />,
         largeIcon: <IoInformation size={20} />,
         path: '/detail',
-    },
-    {
-        name: 'アンケートのお願い',
-        shortName: 'アンケート',
-        icon: <IoServer />,
-        largeIcon: <IoServer size={20} />,
-        path: '/form',
     },
 ];
 

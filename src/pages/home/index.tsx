@@ -32,7 +32,7 @@ const menu: { path: string; name: string; icon: ReactNode }[] = [
     },
     {
         name: 'アンケート',
-        path: '/detail',
+        path: '/detail#form',
         icon: <IoServer size={20} />,
     },
     {
