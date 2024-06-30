@@ -71,47 +71,52 @@ export default function InfoContent(props: Props) {
     ];
 
     return (
-        <div className='px-2'>
-            <Image
-                src={data.imageURL}
-                alt={data.name}
-                width={1024}
-                height={512}
-                className=' aspect-video object-cover w-full'
-                radius='lg'
-            />
-            <div className='mt-4'>
-                <h1 className='text-3xl font-bold'>{data.name}</h1>
-                <div className='flex gap-3 mt-2'>
-                    <Chip color='primary'>{eventStatus}</Chip>
-                    <Chip>
-                        {dayjs(data.date.start.seconds * 1000).format(
-                            'YYYY/MM/DD'
-                        )}
-                    </Chip>
-                </div>
-                <NextUILink
-                    size='sm'
-                    href={googleCalendarLink}
-                    isExternal
-                    showAnchorIcon
-                    className='mt-3'
-                >
-                    Googleカレンダーに追加
-                </NextUILink>
-                <div className='flex flex-col gap-2 mt-4'>
-                    {detailsValue.map((item, index) => (
-                        <div key={index} className='flex gap-2 items-center'>
-                            <div className='flex gap-2 items-center w-32'>
-                                <div>{item.icon}</div>
-                                <p>{item.name}</p>
+        <div>
+            <div className='shadow-medium rounded-large'>
+                <Image
+                    src={data.imageURL}
+                    alt={data.name}
+                    width={1024}
+                    height={512}
+                    className=' aspect-video object-cover w-full rounded-t-large'
+                    radius='none'
+                />
+                <div className='p-5'>
+                    <h1 className='text-3xl font-bold'>{data.name}</h1>
+                    <div className='flex gap-3 mt-2'>
+                        <Chip color='primary'>{eventStatus}</Chip>
+                        <Chip>
+                            {dayjs(data.date.start.seconds * 1000).format(
+                                'YYYY/MM/DD'
+                            )}
+                        </Chip>
+                    </div>
+                    <NextUILink
+                        size='sm'
+                        href={googleCalendarLink}
+                        isExternal
+                        showAnchorIcon
+                        className='mt-3'
+                    >
+                        Googleカレンダーに追加
+                    </NextUILink>
+                    <div className='flex flex-col gap-2 mt-4'>
+                        {detailsValue.map((item, index) => (
+                            <div
+                                key={index}
+                                className='flex gap-2 items-center'
+                            >
+                                <div className='flex gap-2 items-center w-32'>
+                                    <div>{item.icon}</div>
+                                    <p>{item.name}</p>
+                                </div>
+                                <div className='flex-1'>{item.value}</div>
                             </div>
-                            <div className='flex-1'>{item.value}</div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
-            <div className='mt-12'>
+            <div className='mt-12 px-2'>
                 <h2 className='text-2xl font-bold' id='about-event'>
                     概要
                 </h2>
@@ -121,7 +126,7 @@ export default function InfoContent(props: Props) {
                     ))}
                 </div>
             </div>
-            <div className='mt-12'>
+            <div className='mt-12 px-2'>
                 <h2 className='text-2xl font-bold' id='about-app'>
                     このアプリについて
                 </h2>
