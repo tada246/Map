@@ -10,6 +10,7 @@ import {
     PrivacyPage,
     EntertainmentPage,
     HomePage,
+    QRCodePage,
 } from './pages';
 
 export default function App() {
@@ -17,6 +18,9 @@ export default function App() {
         <Routes>
             <Route path='/' element={<TopPage />} />
             <Route path='/events' element={<EventsPage />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/privacy' element={<PrivacyPage />} />
+
             <Route path='/events/:eventId' element={<HomePage />} />
             <Route path='/events/:eventId/map' element={<MapPage />} />
             <Route path='/events/:eventId/detail' element={<DetailPage />} />
@@ -25,8 +29,8 @@ export default function App() {
                 path='/events/:eventId/list'
                 element={<EntertainmentPage />}
             />
-            <Route path='/about' element={<AboutPage />} />
-            <Route path='/privacy' element={<PrivacyPage />} />
+            <Route path='/events/:eventId/qrcode' element={<QRCodePage />} />
+
             <Route path='*' element={<NotFound />} />
         </Routes>
     );

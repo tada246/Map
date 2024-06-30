@@ -17,43 +17,43 @@ import { ReactNode } from 'react';
 const menu: { path: string; name: string; icon: ReactNode }[] = [
     {
         name: 'マップ',
-        path: '/events/:eventId/map',
+        path: '/map',
         icon: <IoMap size={20} />,
     },
     {
         name: '催し物',
-        path: '/events/:eventId/list',
+        path: '/list',
         icon: <IoList size={20} />,
     },
     {
         name: 'イベント概要',
-        path: '/events/:eventId',
+        path: '/detail',
         icon: <IoInformation size={20} />,
     },
     {
         name: 'アンケート',
-        path: '/events/:eventId',
+        path: '/detail',
         icon: <IoServer size={20} />,
     },
     {
         name: 'ココドコ',
-        path: '/events/:eventId',
+        path: '/qrcode',
         icon: <IoQrCode size={20} />,
     },
     {
         name: '開催中',
-        path: '/events/:eventId',
+        path: '/list/open',
         icon: <IoShuffle size={20} />,
     },
 
     {
-        name: '未開催',
-        path: '/events/:eventId',
+        name: '開催予定',
+        path: '/list/coming',
         icon: <IoRocket size={20} />,
     },
     {
         name: '設定',
-        path: '/events/:eventId',
+        path: '/settings',
         icon: <IoSettings size={20} />,
     },
 ];
@@ -76,7 +76,6 @@ export default function Page() {
     return (
         <div>
             <>
-                <div className=''></div>
                 <div
                     className='shadow-medium rounded-large relative h-64'
                     style={{
@@ -100,6 +99,8 @@ export default function Page() {
                                 startContent={<IoList />}
                                 variant='flat'
                                 color='primary'
+                                as={Link}
+                                to={`/events/${eventId}/list`}
                             >
                                 イベント一覧
                             </Button>
@@ -108,10 +109,18 @@ export default function Page() {
                                 startContent={<IoQrCode />}
                                 variant='flat'
                                 color='secondary'
+                                as={Link}
+                                to={`/events/${eventId}/qrcode`}
                             >
                                 ココドコ
                             </Button>
-                            <Button isIconOnly radius='full' variant='flat'>
+                            <Button
+                                isIconOnly
+                                radius='full'
+                                variant='flat'
+                                as={Link}
+                                to={`/events/${eventId}/detail`}
+                            >
                                 <IoInformation />
                             </Button>
                         </div>
@@ -120,7 +129,7 @@ export default function Page() {
                 <div className='shadow-small p-4 mt-6 grid grid-cols-4 md:grid-cols-8 gap-4 rounded-large'>
                     {menu.map((item, i) => (
                         <Link
-                            to={item.path}
+                            to={`/events/${eventId}${item.path}`}
                             key={i}
                             className='w-full flex flex-col gap-1 items-center'
                         >

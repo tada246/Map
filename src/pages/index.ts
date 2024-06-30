@@ -9,3 +9,4 @@ export { default as AboutPage } from './about';
 export { default as PrivacyPage } from './privacy';
 export { default as EntertainmentPage } from './entertainment';
 export { default as HomePage } from './home';
+export { default as QRCodePage } from './qrcode';
