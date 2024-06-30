@@ -102,6 +102,9 @@ function MobileContent() {
     const [message, setMessage] = useState<string>('');
     const navigate = useNavigate();
     const hasCameraPermission = useCameraPermission();
+    const goBack = () => {
+        navigate(-1);
+    };
 
     useEffect(() => {
         redirectURL(result, navigate, setMessage);
@@ -121,6 +124,7 @@ function MobileContent() {
                                 radius='full'
                                 className='backdrop-blur-lg bg-white/40'
                                 startContent={<IoChevronBack size={16} />}
+                                onClick={goBack}
                             >
                                 戻る
                             </Button>
