@@ -14,6 +14,7 @@ import {
     MessagePage,
     SettingsPage,
     ComingEntertainmentsPage,
+    OpenEntertainmentsPage,
 } from './pages';
 
 export default function App() {
@@ -34,6 +35,10 @@ export default function App() {
             <Route
                 path='/events/:eventId/list/coming'
                 element={<ComingEntertainmentsPage />}
+            />
+            <Route
+                path='/events/:eventId/list/open'
+                element={<OpenEntertainmentsPage />}
             />
             <Route path='/events/:eventId/qrcode' element={<QRCodePage />} />
             <Route path='/events/:eventId/messages' element={<MessagePage />} />
