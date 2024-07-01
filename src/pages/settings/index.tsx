@@ -1,4 +1,5 @@
 import RequestCameraButton from '../../components/atom/RequestCameraButton';
+import ResetCacheButton from '../../components/atom/ResetCacheButton';
 import Head from '../../components/ui/Head';
 import useCameraPermission from '../../hooks/useCameraPermission';
 import { CameraAuthorityRequestByHandExplanation } from './camera';
@@ -24,7 +25,7 @@ export default function Page() {
                     title='アプリキャッシュ初期化'
                     subtitle='エラーが発生した場合に使用します。'
                 >
-                    <RequestCameraButton />
+                    <ResetCacheButton />
                 </CommonSettingItem>
             </div>
         </div>
