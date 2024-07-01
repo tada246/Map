@@ -23,6 +23,13 @@ export default function Page() {
     const location = useLocation();
     const hashValue = location.hash;
 
+    useEffect(() => {
+        if (hashValue) {
+            const scrollTo = hashValue.replace('#', '');
+            document.getElementById(scrollTo)?.scrollIntoView();
+        }
+    }, [hashValue]);
+
     if (eventError || formError) return <ErrorPage />;
 
     if (eventIsLoading || formIsLoading)
@@ -33,13 +40,6 @@ export default function Page() {
         );
 
     if (!eventData || !formData) return <NotFound />;
-
-    useEffect(() => {
-        if (hashValue) {
-            const scrollTo = hashValue.replace('#', '');
-            document.getElementById(scrollTo)?.scrollIntoView();
-        }
-    }, [hashValue]);
 
     return (
         <>
