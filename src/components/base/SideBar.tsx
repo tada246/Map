@@ -123,7 +123,7 @@ export default function SideBar() {
                 location.pathname === `/events/${eventId}` ||
                 location.pathname === `/events/${eventId}/`
             );
-        return location.pathname === `/events/${eventId}${path}`;
+        return location.pathname.startsWith(`/events/${eventId}${path}`);
     }
 
     return (
