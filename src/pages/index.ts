@@ -11,3 +11,4 @@ export { default as EntertainmentPage } from './entertainment';
 export { default as HomePage } from './home';
 export { default as QRCodePage } from './qrcode';
 export { default as MessagePage } from './message';
+export { default as SettingsPage } from './settings';

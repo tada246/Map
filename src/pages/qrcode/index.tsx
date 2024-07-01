@@ -3,20 +3,27 @@ import Head from '../../components/ui/Head';
 import useWindowSize from '../../hooks/useWindowSize';
 import { useZxing } from 'react-zxing';
 import { APP_URL } from '../../store/app';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IoChevronBack, IoQrCode } from 'react-icons/io5';
 import { Button } from '@nextui-org/react';
 import useCameraPermission from '../../hooks/useCameraPermission';
 
 export default function Page() {
     const [width] = useWindowSize();
+    const { eventId } = useParams<{ eventId: string }>();
+
+    const settingURL = `/events/${eventId}/settings`;
 
     if (width >= 768) {
-        return <DesktopContent />;
+        return <DesktopContent settingURL={settingURL} />;
     }
 
-    return <MobileContent />;
+    return <MobileContent settingURL={settingURL} />;
 }
+
+type ContentProps = {
+    settingURL: string;
+};
 
 function redirectURL(url: string, navigate: any, setMessage: any) {
     const isAppURL = url.startsWith(`${APP_URL}/`) || url === APP_URL;
@@ -38,7 +45,7 @@ function redirectURL(url: string, navigate: any, setMessage: any) {
     }
 }
 
-function DesktopContent() {
+function DesktopContent(props: ContentProps) {
     const [result, setResult] = useState<string>('');
     const { ref } = useZxing({
         onDecodeResult(result) {
@@ -85,6 +92,15 @@ function DesktopContent() {
                             <br />
                             QRコードを読み取るためには、カメラの使用を許可する必要があります。
                         </p>
+                        <div className='flex justify-center mt-3'>
+                            <Button
+                                color='default'
+                                as={Link}
+                                to={props.settingURL}
+                            >
+                                設定ページ
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -92,7 +108,7 @@ function DesktopContent() {
     );
 }
 
-function MobileContent() {
+function MobileContent(props: ContentProps) {
     const [result, setResult] = useState<string>('');
     const { ref } = useZxing({
         onDecodeResult(result) {
@@ -150,12 +166,22 @@ function MobileContent() {
                     </div>
                     {!hasCameraPermission && (
                         <div className='absolute bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-4rem)] bg-white p-4 rounded-large'>
-                            <p className='font-bold'>
-                                カメラの使用を許可してください。
-                            </p>
-                            <p>
-                                QRコードを読み取るためには、カメラの使用を許可する必要があります。
-                            </p>
+                            <div className='mb-2'>
+                                <p className='font-bold'>
+                                    カメラの使用を許可してください。
+                                </p>
+                                <p>
+                                    QRコードを読み取るためには、カメラの使用を許可する必要があります。
+                                </p>
+                            </div>
+                            <Button
+                                color='default'
+                                as={Link}
+                                to={props.settingURL}
+                                className='mt-3'
+                            >
+                                設定ページ
+                            </Button>
                         </div>
                     )}
                     <div className='flex justify-center items-center h-full'>

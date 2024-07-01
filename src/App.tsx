@@ -12,6 +12,7 @@ import {
     HomePage,
     QRCodePage,
     MessagePage,
+    SettingsPage,
 } from './pages';
 
 export default function App() {
@@ -32,6 +33,10 @@ export default function App() {
             />
             <Route path='/events/:eventId/qrcode' element={<QRCodePage />} />
             <Route path='/events/:eventId/messages' element={<MessagePage />} />
+            <Route
+                path='/events/:eventId/settings'
+                element={<SettingsPage />}
+            />
 
             <Route path='*' element={<NotFound />} />
         </Routes>
