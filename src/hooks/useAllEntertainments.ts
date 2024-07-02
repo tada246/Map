@@ -6,7 +6,7 @@ export default function useAllEntertainments(eventId: string) {
         data: placeData,
         isLoading: placeIsLoading,
         error: placeError,
-    } = usePlaces(eventId!.toString());
+    } = usePlaces(eventId.toString());
 
     const events =
         placeData?.map((place) => ({
