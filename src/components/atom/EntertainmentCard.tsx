@@ -14,14 +14,22 @@ type Props = {
     d: D;
     navigate?: (id: string) => void;
     isList: boolean;
+    showStatus?: boolean;
 };
 
 export default function EntertainmentCard(props: Props) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const { d } = props;
 
+    const isEnded =
+        dayjs(d.date.end.seconds * 1000).isBefore(dayjs()) && props.showStatus;
+
     return (
-        <div className='bg-default-50 shadow-medium rounded-large p-4 items-center'>
+        <div
+            className={`bg-default-50 shadow-medium rounded-large p-4 items-center ${
+                isEnded && 'opacity-60'
+            }`}
+        >
             <div className='flex gap-3 items-center'>
                 <div className='w-20 h-20 aspect-square relative'>
                     <Image
