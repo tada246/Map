@@ -36,7 +36,7 @@ export default function TopListEntertainments(props: Props) {
 
     const groupedByHour: { [key: string]: AllEntertainmentsData[] } = {};
 
-    data.forEach((event) => {
+    data?.forEach((event) => {
         const startDate = dayjs(new Date(event.date.start.seconds * 1000));
         const key = startDate.format('HH:mm');
 
