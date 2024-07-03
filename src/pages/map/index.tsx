@@ -14,6 +14,7 @@ export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
     const [searchParams, setSearchParams] = useSearchParams();
     const pathPlaceId = searchParams.get('place');
+    const pathFloorId = searchParams.get('floor');
 
     const {
         data: eventData,
@@ -33,6 +34,17 @@ export default function Page() {
             setSelectedPlace(place || null);
         } else {
             setSelectedPlace(null);
+        }
+
+        if (pathFloorId) {
+            setTimeout(() => {
+                const targetElement = document.getElementById(
+                    `f-${pathFloorId}`
+                );
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 1200);
         }
     }, [pathPlaceId]);
 
@@ -69,6 +81,7 @@ export default function Page() {
                 eventId={eventId}
                 selectedPlace={selectedPlace}
                 setSelectedPlace={setPlaceId}
+                isSelecting={!!pathFloorId}
             />
             <MapIsland event={eventData} />
         </div>

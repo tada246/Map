@@ -10,7 +10,7 @@ import {
 } from 'react-icons/io5';
 import { Drawer } from 'vaul';
 import useWindowSize from '../../hooks/useWindowSize';
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -18,6 +18,7 @@ type Props = {
     eventId: string;
     selectedPlace: Place | null;
     setSelectedPlace: (place: Place | null) => void;
+    isSelecting: boolean;
 };
 
 interface DataType extends Floor {
@@ -56,6 +57,7 @@ type ContentProps = Props & {
     data: DataType[] | null | undefined;
     error: any;
     isLoading: boolean;
+    isSelecting: boolean;
 };
 
 function DetailDesktop(props: ContentProps) {
@@ -82,13 +84,37 @@ function DetailDesktop(props: ContentProps) {
                 className='w-full aspect-video object-cover rounded-large mt-4'
                 isBlurred
             />
-            <h1 className='text-2xl font-bold mt-2'>{place?.name}</h1>
-            <div className='flex flex-col mt-8 gap-16'>
+            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>{' '}
+            <div className='mt-8 flex items-center h-7'>
+                <div className='w-full'>
+                    <p className='text-sm text-center'>階層</p>
+                    <p className='text-xl text-center font-bold'>
+                        {data ? data.length.toString() : 0}
+                    </p>
+                </div>
+                <Divider orientation='vertical' />
+                <div className='w-full'>
+                    <p className='text-sm text-center'>イベント数</p>
+                    <p className='text-xl text-center font-bold'>
+                        {!!data && data.length > 0
+                            ? data
+                                  ?.map((floor) => floor.events.length)
+                                  .reduce((a, b) => a + b)
+                            : 0}
+                    </p>
+                </div>
+            </div>
+            <div className='flex flex-col mt-12 gap-16'>
                 {data.map((floor, index) => (
-                    <div key={index}>
-                        <h2 className='text-lg font-bold'>
-                            {place?.name} {floor.name}
-                        </h2>
+                    <div key={index} id={`f-${floor.id}`}>
+                        <div className='flex gap-2 items-center'>
+                            <h2 className='text-xl font-bold'>
+                                {place?.name} {floor.name}{' '}
+                            </h2>
+                            <Chip size='sm' className=''>
+                                {floor.events.length}件
+                            </Chip>
+                        </div>
                         {floor.mapImageURL && (
                             <>
                                 <FloorMap floor={floor} />
@@ -123,6 +149,12 @@ function DetailDrawer(props: ContentProps) {
 
     const { selectedPlace: place } = props;
     const { data } = props;
+
+    useEffect(() => {
+        if (props.isSelecting) {
+            setSnap(1);
+        }
+    }, []);
 
     return (
         <Drawer.Root
@@ -197,7 +229,7 @@ function DetailDrawer(props: ContentProps) {
                         {snap === 1 && !!data && (
                             <div className='mt-12 flex flex-col gap-20'>
                                 {data?.map((floor, index) => (
-                                    <div key={index}>
+                                    <div key={index} id={`f-${floor.id}`}>
                                         <div className='flex gap-2 items-center'>
                                             <h2 className='text-xl font-bold'>
                                                 {place?.name} {floor.name}{' '}
