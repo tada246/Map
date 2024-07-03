@@ -4,7 +4,7 @@ import useAllEntertainments from '../../hooks/useAllEntertainments';
 import { Event, Floor, Place } from '../../types/firebase';
 import dayjs from 'dayjs';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type Props = { data: Event };
 
