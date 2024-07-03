@@ -1,18 +1,7 @@
-import { Button, Spinner } from '@nextui-org/react';
-import {
-    IoInformation,
-    IoList,
-    IoMap,
-    IoQrCode,
-    IoRocket,
-    IoServer,
-    IoSettings,
-    IoShuffle,
-} from 'react-icons/io5';
-import { Link, useParams } from 'react-router-dom';
+import { Spinner } from '@nextui-org/react';
+import { useParams } from 'react-router-dom';
 import useEvent from '../../hooks/useEvent';
 import { ErrorPage, NotFound } from '..';
-import { ReactNode } from 'react';
 import HomeTopContent from './top';
 import HomeMenu from './menu';
 import TopListEntertainments from './list';
