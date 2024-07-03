@@ -12,7 +12,7 @@ interface D extends Entertainment {
 
 type Props = {
     d: D;
-    navigate?: (id: string) => void;
+    navigate?: (buildingId: string, floorId?: string) => void;
     isList: boolean;
     showStatus?: boolean;
     isCompact?: boolean;
@@ -125,7 +125,10 @@ export default function EntertainmentCard(props: Props) {
                         color='primary'
                         onClick={() =>
                             props.navigate
-                                ? props.navigate(d?.building?.id ?? '')
+                                ? props.navigate(
+                                      d?.building?.id ?? '',
+                                      d?.floor?.id ?? ''
+                                  )
                                 : null
                         }
                         size={props.isCompact ? 'sm' : 'md'}

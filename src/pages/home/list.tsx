@@ -5,8 +5,9 @@ import { Event, Floor, Place } from '../../types/firebase';
 import dayjs from 'dayjs';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-type Props = { data: Event };
+type Props = { data: Event; eventId: string };
 
 interface AllEntertainmentsData {
     building: Place;
@@ -31,6 +32,7 @@ interface AllEntertainmentsData {
 export default function TopListEntertainments(props: Props) {
     const id = props.data.id;
     const { data, isLoading, error } = useAllEntertainments(id);
+    const navigate = useNavigate();
 
     const groupedByHour: { [key: string]: AllEntertainmentsData[] } = {};
 
@@ -114,6 +116,11 @@ export default function TopListEntertainments(props: Props) {
                                 isList
                                 showStatus
                                 isCompact
+                                navigate={(u, f) =>
+                                    navigate(
+                                        `/events/${props.eventId}/map?place=${u}&floor=${f}`
+                                    )
+                                }
                             />
                         ))}
                     </div>

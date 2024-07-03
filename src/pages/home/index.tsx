@@ -22,7 +22,7 @@ export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
     const { data, isLoading, error } = useEvent(eventId!.toString());
 
-    if (error) return <ErrorPage />;
+    if (error || !eventId) return <ErrorPage />;
 
     if (isLoading)
         return (
@@ -37,7 +37,7 @@ export default function Page() {
         <div>
             <HomeTopContent data={data} />
             <HomeMenu data={data} />
-            <TopListEntertainments data={data} />
+            <TopListEntertainments data={data} eventId={eventId} />
             <HomeChip />
         </div>
     );
