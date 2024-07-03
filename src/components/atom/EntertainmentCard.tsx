@@ -15,6 +15,7 @@ type Props = {
     navigate?: (id: string) => void;
     isList: boolean;
     showStatus?: boolean;
+    isCompact?: boolean;
 };
 
 export default function EntertainmentCard(props: Props) {
@@ -23,6 +24,24 @@ export default function EntertainmentCard(props: Props) {
 
     const isEnded =
         dayjs(d.date.end.seconds * 1000).isBefore(dayjs()) && props.showStatus;
+
+    const entertainment_info = (
+        <div className='flex flex-col mt-2'>
+            <div className='flex gap-2 items-center'>
+                <IoTime size={16} />
+                <p>
+                    {dayjs(d.date.start.seconds * 1000).format('HH:mm')}〜
+                    {dayjs(d.date.end.seconds * 1000).format('HH:mm')}
+                </p>
+            </div>
+            <div className='flex gap-2 items-center'>
+                <IoMap size={16} />
+                <p>
+                    {d?.building?.name} {d?.floor?.name} {d.place ?? '不明'}
+                </p>
+            </div>
+        </div>
+    );
 
     return (
         <div
@@ -88,27 +107,14 @@ export default function EntertainmentCard(props: Props) {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col text-sm mt-2'>
-                <div className='flex gap-2 items-center'>
-                    <IoTime size={16} />
-                    <p>
-                        {dayjs(d.date.start.seconds * 1000).format('HH:mm')}〜
-                        {dayjs(d.date.end.seconds * 1000).format('HH:mm')}
-                    </p>
-                </div>
-                <div className='flex gap-2 items-center'>
-                    <IoMap size={16} />
-                    <p>
-                        {d?.building?.name} {d?.floor?.name} {d.place ?? '不明'}
-                    </p>
-                </div>
-            </div>
+            {!props.isCompact && entertainment_info}
             <div className='mt-2 flex gap-2'>
                 <Button
                     fullWidth
                     variant='flat'
                     color='default'
                     onClick={() => setIsOpen(!isOpen)}
+                    size={props.isCompact ? 'sm' : 'md'}
                 >
                     {isOpen ? '説明を閉じる' : '説明を表示'}
                 </Button>
@@ -122,6 +128,7 @@ export default function EntertainmentCard(props: Props) {
                                 ? props.navigate(d?.building?.id ?? '')
                                 : null
                         }
+                        size={props.isCompact ? 'sm' : 'md'}
                     >
                         マップを見る
                     </Button>
@@ -133,6 +140,7 @@ export default function EntertainmentCard(props: Props) {
                     {d.explanation.split('\n').map((line, i) => (
                         <p key={i}>{line}</p>
                     ))}
+                    {props.isCompact && entertainment_info}
                 </div>
             )}
         </div>
