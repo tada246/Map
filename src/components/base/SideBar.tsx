@@ -18,6 +18,7 @@ import {
 } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useEvent from '../../hooks/useEvent';
+import useWindowSize from '../../hooks/useWindowSize';
 
 type Menu = {
     name: string;
@@ -116,6 +117,7 @@ export default function SideBar() {
     const navigate = useNavigate();
     const eventId = location.pathname.split('/')[2];
     const { data } = useEvent(eventId);
+    const [width] = useWindowSize();
 
     function isActivePath(path: string) {
         if (path === '/')
@@ -123,6 +125,12 @@ export default function SideBar() {
                 location.pathname === `/events/${eventId}` ||
                 location.pathname === `/events/${eventId}/`
             );
+        if (width >= 768) {
+            return (
+                location.pathname === `/events/${eventId}${path}` ||
+                location.pathname === `/events/${eventId}${path}/`
+            );
+        }
         return location.pathname.startsWith(`/events/${eventId}${path}`);
     }
 
