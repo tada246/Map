@@ -3,9 +3,11 @@ import { Cache } from 'swr';
 export function localStorageProvider(): Cache<any> {
     let map: Map<string, any>;
     try {
-        map = new Map(JSON.parse(localStorage.getItem('app-cache') || '[]'));
+        const cache_value = localStorage.getItem('app-cache') || '[]';
+        map = new Map(JSON.parse(cache_value));
     } catch (_) {
-        map = new Map();
+        console.log('Error while parsing cache');
+        map = new Map(JSON.parse('[]'));
     }
 
     window.addEventListener('beforeunload', () => {
