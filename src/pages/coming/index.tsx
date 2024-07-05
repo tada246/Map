@@ -1,19 +1,110 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import usePlaces from '../../hooks/usePlaces';
+import { ErrorPage, NotFound } from '..';
+import { Divider, Spinner } from '@nextui-org/react';
 import Head from '../../components/ui/Head';
-import ComingEntertainmentContent from './content';
+import { Place } from '../../types/firebase';
+import useEntertainment from '../../hooks/useEntertainment';
+import EntertainmentCard from '../../components/atom/EntertainmentCard';
+import dayjs from 'dayjs';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
+    const { data, isLoading, error } = usePlaces(eventId!.toString());
 
-    if (!eventId) return;
+    if (error) return <ErrorPage />;
+
+    if (isLoading)
+        return (
+            <div className='flex justify-center mt-10'>
+                <Spinner size='lg' />
+            </div>
+        );
+
+    if (!data || !eventId) return <NotFound />;
 
     return (
-        <div>
+        <>
             <Head
                 title='開催予定 催し物'
-                subtitle='まだ開催されていない催し物一覧です。'
+                subtitle='まだ開催されていない催し物一覧です。お楽しみください。'
             />
-            <ComingEntertainmentContent eventId={eventId} className='mt-10' />
+            <Content data={data} eventId={eventId} />
+        </>
+    );
+}
+
+type ContentProps = {
+    eventId: string;
+    data: Place[];
+};
+
+function Content(props: ContentProps) {
+    const events = props.data.map((place) => ({
+        hook: useEntertainment(props.eventId, place.id),
+        place: place,
+    }));
+    const navigate = useNavigate();
+
+    let data = [];
+    for (const event of events) {
+        if (event.hook.data) {
+            for (const floor of event.hook.data) {
+                for (const entertainment of floor.events) {
+                    data.push({
+                        building: event.place,
+                        floor: floor,
+                        ...entertainment,
+                    });
+                }
+            }
+        }
+    }
+
+    // 開催予定の催し物のみを抽出
+    function isEventComing(startTime: Date) {
+        const now = dayjs();
+        const start = dayjs(startTime);
+        return start.isAfter(now);
+    }
+
+    data = data
+        .filter(
+            (d) => !!d && isEventComing(new Date(d.date.start.seconds * 1000))
+        )
+        .sort((a, b) => a.date.start.seconds - b.date.start.seconds);
+    const isLoading = events.some((event) => event.hook.isLoading);
+
+    if (isLoading)
+        return (
+            <div className='flex justify-center mt-10'>
+                <Spinner size='lg' />
+            </div>
+        );
+
+    if (data.length === 0)
+        return (
+            <>
+                <div className='flex justify-center mt-16'>
+                    <p>開催予定の催し物はありません。</p>
+                </div>
+            </>
+        );
+
+    return (
+        <div className='grid gap-8 grid-cols-1 mt-16'>
+            {data.map((d) => (
+                <EntertainmentCard
+                    d={d}
+                    key={d.id}
+                    isList
+                    navigate={(u, f) =>
+                        navigate(
+                            `/events/${props.eventId}/map?place=${u}&floor=${f}`
+                        )
+                    }
+                />
+            ))}
         </div>
     );
 }
