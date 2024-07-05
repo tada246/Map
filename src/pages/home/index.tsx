@@ -26,7 +26,7 @@ export default function Page() {
         <div>
             <HomeTopContent data={data} />
             <HomeMenu data={data} />
-            <TopListEntertainments data={data} eventId={eventId} />
+            <TopListEntertainments eventId={eventId} data={data} />
             <HomeChip />
         </div>
     );
