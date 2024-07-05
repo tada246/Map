@@ -99,7 +99,7 @@ function DetailDesktop(props: ContentProps) {
                         {!!data && data.length > 0
                             ? data
                                   ?.map((floor) => floor.events.length)
-                                  .reduce((a, b) => a + b)
+                                  ?.reduce((a, b) => a + b, 0)
                             : 0}
                     </p>
                 </div>
@@ -220,7 +220,7 @@ function DetailDrawer(props: ContentProps) {
                                                       (floor) =>
                                                           floor.events.length
                                                   )
-                                                  .reduce((a, b) => a + b)
+                                                  ?.reduce((a, b) => a + b, 0)
                                             : 0}
                                     </p>
                                 </div>
