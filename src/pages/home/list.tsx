@@ -1,8 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import usePlaces from '../../hooks/usePlaces';
-import { ErrorPage, NotFound } from '..';
-import { Divider, Spinner } from '@nextui-org/react';
-import Head from '../../components/ui/Head';
+import { ErrorPage } from '..';
+import { Spinner } from '@nextui-org/react';
 import { Event, Floor, Place } from '../../types/firebase';
 import useEntertainment from '../../hooks/useEntertainment';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
