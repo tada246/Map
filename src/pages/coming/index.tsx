@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import usePlaces from '../../hooks/usePlaces';
 import { ErrorPage, NotFound } from '..';
-import { Divider, Spinner } from '@nextui-org/react';
+import { Spinner } from '@nextui-org/react';
 import Head from '../../components/ui/Head';
 import { Place } from '../../types/firebase';
 import useEntertainment from '../../hooks/useEntertainment';
