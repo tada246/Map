@@ -95,8 +95,10 @@ function Content(props: ContentProps) {
                         d={d}
                         key={d.id}
                         isList
-                        navigate={(u) =>
-                            navigate(`/events/${props.eventId}?place=${u}`)
+                        navigate={(u, f) =>
+                            navigate(
+                                `/events/${props.eventId}/map?place=${u}&floor=${f}`
+                            )
                         }
                     />
                 ))}

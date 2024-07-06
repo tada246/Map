@@ -12,7 +12,7 @@ export default function Layout(props: Props) {
     const location = useLocation();
 
     const isNotHeader = location.pathname.startsWith('/events/');
-    const isMap = /^\/events\/[a-z0-9|-]+\/?$/.test(location.pathname);
+    const isMap = /^\/events\/[a-z0-9|-]+\/map\/?$/.test(location.pathname);
 
     if (isMap) {
         return (

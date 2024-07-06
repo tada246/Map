@@ -12,25 +12,59 @@ interface D extends Entertainment {
 
 type Props = {
     d: D;
-    navigate?: (id: string) => void;
+    navigate?: (buildingId: string, floorId?: string) => void;
     isList: boolean;
+    showStatus?: boolean;
+    isCompact?: boolean;
 };
 
 export default function EntertainmentCard(props: Props) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const { d } = props;
 
+    const isEnded =
+        dayjs(d.date.end.seconds * 1000).isBefore(dayjs()) && props.showStatus;
+
+    const entertainment_info = (
+        <div className='flex flex-col mt-2'>
+            <div className='flex gap-2 items-center'>
+                <IoTime size={16} />
+                <p>
+                    {dayjs(d.date.start.seconds * 1000).format('HH:mm')}〜
+                    {dayjs(d.date.end.seconds * 1000).format('HH:mm')}
+                </p>
+            </div>
+            <div className='flex gap-2 items-center'>
+                <IoMap size={16} />
+                <p>
+                    {d?.building?.name} {d?.floor?.name} {d.place ?? '不明'}
+                </p>
+            </div>
+        </div>
+    );
+
     return (
-        <div className='bg-default-50 shadow-medium rounded-large p-4 items-center'>
+        <div
+            className={`bg-default-50 shadow-medium rounded-large p-4 items-center ${
+                isEnded && 'opacity-60'
+            }`}
+        >
             <div className='flex gap-3 items-center'>
-                <div className='w-20 h-20 aspect-square'>
+                <div className='w-20 h-20 aspect-square relative'>
                     <Image
                         src={d.imageURL}
                         width={300}
                         height={300}
-                        className='object-cover aspect-square'
+                        className='object-cover aspect-square absolute top-0 left-0 z-0'
                         isBlurred
                     />
+                    {!props.isList && (
+                        <div className='absolute top-0 bg-secondary z-10 w-6 h-6 rounded-br-large rounded-tl-large flex justify-center items-center'>
+                            <p className='text-sm text-white font-bold'>
+                                {props.d.order}
+                            </p>
+                        </div>
+                    )}
                 </div>
                 <div className='flex-1'>
                     <h1 className='text-lg font-bold'>{d.name}</h1>
@@ -73,27 +107,14 @@ export default function EntertainmentCard(props: Props) {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col text-sm mt-2'>
-                <div className='flex gap-2 items-center'>
-                    <IoTime size={16} />
-                    <p>
-                        {dayjs(d.date.start.seconds * 1000).format('HH:mm')}〜
-                        {dayjs(d.date.end.seconds * 1000).format('HH:mm')}
-                    </p>
-                </div>
-                <div className='flex gap-2 items-center'>
-                    <IoMap size={16} />
-                    <p>
-                        {d?.building?.name} {d?.floor?.name} {d.place ?? '不明'}
-                    </p>
-                </div>
-            </div>
+            {!props.isCompact && entertainment_info}
             <div className='mt-2 flex gap-2'>
                 <Button
                     fullWidth
                     variant='flat'
                     color='default'
                     onClick={() => setIsOpen(!isOpen)}
+                    size={props.isCompact ? 'sm' : 'md'}
                 >
                     {isOpen ? '説明を閉じる' : '説明を表示'}
                 </Button>
@@ -104,9 +125,13 @@ export default function EntertainmentCard(props: Props) {
                         color='primary'
                         onClick={() =>
                             props.navigate
-                                ? props.navigate(d?.building?.id ?? '')
+                                ? props.navigate(
+                                      d?.building?.id ?? '',
+                                      d?.floor?.id ?? ''
+                                  )
                                 : null
                         }
+                        size={props.isCompact ? 'sm' : 'md'}
                     >
                         マップを見る
                     </Button>
@@ -118,6 +143,7 @@ export default function EntertainmentCard(props: Props) {
                     {d.explanation.split('\n').map((line, i) => (
                         <p key={i}>{line}</p>
                     ))}
+                    {props.isCompact && entertainment_info}
                 </div>
             )}
         </div>

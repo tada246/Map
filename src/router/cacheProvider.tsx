@@ -1,9 +1,14 @@
 import { Cache } from 'swr';
 
 export function localStorageProvider(): Cache<any> {
-    const map: Map<string, any> = new Map(
-        JSON.parse(localStorage.getItem('app-cache') || '[]')
-    );
+    let map: Map<string, any>;
+    try {
+        const cache_value = localStorage.getItem('app-cache') || '[]';
+        map = new Map(JSON.parse(cache_value));
+    } catch (_) {
+        console.log('Error while parsing cache');
+        map = new Map(JSON.parse('[]'));
+    }
 
     window.addEventListener('beforeunload', () => {
         const appCache = JSON.stringify(Array.from(map.entries()));

@@ -10,7 +10,7 @@ import {
 } from 'react-icons/io5';
 import { Drawer } from 'vaul';
 import useWindowSize from '../../hooks/useWindowSize';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -18,6 +18,7 @@ type Props = {
     eventId: string;
     selectedPlace: Place | null;
     setSelectedPlace: (place: Place | null) => void;
+    isSelecting: boolean;
 };
 
 interface DataType extends Floor {
@@ -56,6 +57,7 @@ type ContentProps = Props & {
     data: DataType[] | null | undefined;
     error: any;
     isLoading: boolean;
+    isSelecting: boolean;
 };
 
 function DetailDesktop(props: ContentProps) {
@@ -63,8 +65,6 @@ function DetailDesktop(props: ContentProps) {
     const { selectedPlace: place } = props;
 
     if (!place || !data) return <div></div>;
-
-    console.log(data);
 
     return (
         <div className='hidden md:block w-[28rem] h-[100svh] left-[20rem] top-0 bg-white/60 fixed backdrop-blur-lg p-6 shadow-lg overflow-y-auto'>
@@ -84,13 +84,37 @@ function DetailDesktop(props: ContentProps) {
                 className='w-full aspect-video object-cover rounded-large mt-4'
                 isBlurred
             />
-            <h1 className='text-2xl font-bold mt-2'>{place?.name}</h1>
-            <div className='flex flex-col mt-8 gap-16'>
+            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>{' '}
+            <div className='mt-8 flex items-center h-7'>
+                <div className='w-full'>
+                    <p className='text-sm text-center'>階層</p>
+                    <p className='text-xl text-center font-bold'>
+                        {data ? data.length.toString() : 0}
+                    </p>
+                </div>
+                <Divider orientation='vertical' />
+                <div className='w-full'>
+                    <p className='text-sm text-center'>イベント数</p>
+                    <p className='text-xl text-center font-bold'>
+                        {!!data && data.length > 0
+                            ? data
+                                  ?.map((floor) => floor.events.length)
+                                  ?.reduce((a, b) => a + b, 0)
+                            : 0}
+                    </p>
+                </div>
+            </div>
+            <div className='flex flex-col mt-12 gap-16'>
                 {data.map((floor, index) => (
-                    <div key={index}>
-                        <h2 className='text-lg font-bold'>
-                            {place?.name} {floor.name}
-                        </h2>
+                    <div key={index} id={`f-${floor.id}`}>
+                        <div className='flex gap-2 items-center'>
+                            <h2 className='text-xl font-bold'>
+                                {place?.name} {floor.name}{' '}
+                            </h2>
+                            <Chip size='sm' className=''>
+                                {floor.events.length}件
+                            </Chip>
+                        </div>
                         {floor.mapImageURL && (
                             <>
                                 <FloorMap floor={floor} />
@@ -125,6 +149,12 @@ function DetailDrawer(props: ContentProps) {
 
     const { selectedPlace: place } = props;
     const { data } = props;
+
+    useEffect(() => {
+        if (props.isSelecting) {
+            setSnap(1);
+        }
+    }, []);
 
     return (
         <Drawer.Root
@@ -190,7 +220,7 @@ function DetailDrawer(props: ContentProps) {
                                                       (floor) =>
                                                           floor.events.length
                                                   )
-                                                  .reduce((a, b) => a + b)
+                                                  ?.reduce((a, b) => a + b, 0)
                                             : 0}
                                     </p>
                                 </div>
@@ -199,7 +229,7 @@ function DetailDrawer(props: ContentProps) {
                         {snap === 1 && !!data && (
                             <div className='mt-12 flex flex-col gap-20'>
                                 {data?.map((floor, index) => (
-                                    <div key={index}>
+                                    <div key={index} id={`f-${floor.id}`}>
                                         <div className='flex gap-2 items-center'>
                                             <h2 className='text-xl font-bold'>
                                                 {place?.name} {floor.name}{' '}
@@ -247,6 +277,22 @@ function DetailDrawer(props: ContentProps) {
 }
 
 function FloorMap({ floor }: { floor: DataType }) {
+    // 同じ座標の場所をグループ化する
+    const group: Map<string, Entertainment[]> = useMemo(() => {
+        const map = new Map<string, Entertainment[]>();
+        floor.events.forEach((event) => {
+            if (!event.location) return;
+
+            const key = `${event.location.x},${event.location.y}`;
+            if (map.has(key)) {
+                map.get(key)?.push(event);
+            } else {
+                map.set(key, [event]);
+            }
+        });
+        return map;
+    }, [floor.events]);
+
     return (
         <div className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative overflow-hidden'>
             <TransformWrapper initialScale={1.5} centerOnInit>
@@ -261,39 +307,61 @@ function FloorMap({ floor }: { floor: DataType }) {
                                     className='w-full aspect-[3/2] object-cover object-center'
                                 />
                                 <div className='w-full h-full absolute top-0 left-0'>
-                                    {floor.events.map(
-                                        (place) =>
-                                            place.location && (
-                                                <div key={place.id}>
+                                    {/* groupを表示 */}
+                                    {Array.from(group.values()).map(
+                                        (places) =>
+                                            places[0].location && (
+                                                <div key={places[0].id}>
                                                     <div
                                                         className='p-1 absolute bg-primary rounded-full -translate-x-1/2 -translate-y-1/2 w-3 h-3'
                                                         style={{
-                                                            left: `${place.location.x}%`,
-                                                            top: `${place.location.y}%`,
+                                                            left: `${places[0].location.x}%`,
+                                                            top: `${places[0].location.y}%`,
                                                         }}
                                                     />
                                                     <div
                                                         className='absolute -translate-x-1/2 -translate-y-10 w-10 h-10'
                                                         style={{
-                                                            left: `${place.location.x}%`,
-                                                            top: `${place.location.y}%`,
+                                                            left: `${places[0].location.x}%`,
+                                                            top: `${places[0].location.y}%`,
                                                         }}
                                                     >
                                                         <img
-                                                            src={place.imageURL}
+                                                            src={
+                                                                places[0]
+                                                                    .imageURL
+                                                            }
                                                             width={16}
                                                             height={16}
                                                             className='w-10 h-10 border-2 border-primary rounded-full bg-white shadow-medium object-cover object-center'
                                                         />
                                                     </div>
                                                     <div
-                                                        className='absolute -translate-x-1/2 translate-y-2 md:text-[8px] text-tiny max-w-10 line-clamp-1'
+                                                        className='absolute -translate-x-1/2 translate-y-2 md:text-[0.5rem] text-[0.5rem] max-w-10 line-clamp-1'
                                                         style={{
-                                                            left: `${place.location.x}%`,
-                                                            top: `${place.location.y}%`,
+                                                            left: `${places[0].location.x}%`,
+                                                            top: `${places[0].location.y}%`,
                                                         }}
                                                     >
-                                                        <p>{place.place}</p>
+                                                        <p>{places[0].place}</p>
+                                                    </div>
+                                                    <div
+                                                        className='absolute -translate-x-6 -translate-y-[3.5rem] flex gap-0.5 flex-col bg-white rounded-full p-0.5'
+                                                        style={{
+                                                            left: `${places[0].location.x}%`,
+                                                            top: `${places[0].location.y}%`,
+                                                        }}
+                                                    >
+                                                        {places.map((p, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className='text-[0.5rem] bg-secondary text-white w-3 h-3 flex justify-center items-center rounded-full'
+                                                            >
+                                                                <p className='text-center'>
+                                                                    {p.order}
+                                                                </p>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             )

@@ -9,10 +9,16 @@ import {
     IoInformation,
     IoList,
     IoMap,
+    IoMegaphone,
+    IoQrCode,
+    IoRocket,
     IoServer,
+    IoSettings,
+    IoShuffle,
 } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useEvent from '../../hooks/useEvent';
+import useWindowSize from '../../hooks/useWindowSize';
 
 type Menu = {
     name: string;
@@ -20,15 +26,41 @@ type Menu = {
     icon: ReactNode;
     largeIcon: ReactNode;
     path: string;
+    onlyDesktop: boolean;
 };
 
 const menu: Menu[] = [
+    {
+        name: 'ホーム',
+        shortName: 'ホーム',
+        icon: <IoHome />,
+        largeIcon: <IoHome size={20} />,
+        path: '/',
+        onlyDesktop: false,
+    },
     {
         name: 'マップ',
         shortName: 'マップ',
         icon: <IoMap />,
         largeIcon: <IoMap size={20} />,
-        path: '/',
+        path: '/map',
+        onlyDesktop: false,
+    },
+    {
+        name: 'ココドコ（QRコード）',
+        shortName: 'ココドコ',
+        icon: <IoQrCode />,
+        largeIcon: <IoQrCode size={20} />,
+        path: '/qrcode',
+        onlyDesktop: true,
+    },
+    {
+        name: 'リアルタイムアナウンス',
+        shortName: 'アナウンス',
+        icon: <IoMegaphone />,
+        largeIcon: <IoMegaphone size={20} />,
+        path: '/messages',
+        onlyDesktop: false,
     },
     {
         name: '催し物リスト',
@@ -36,20 +68,47 @@ const menu: Menu[] = [
         icon: <IoList />,
         largeIcon: <IoList size={20} />,
         path: '/list',
+        onlyDesktop: false,
     },
     {
-        name: 'イベントについて',
+        name: '開催中',
+        shortName: '開催中',
+        icon: <IoShuffle />,
+        largeIcon: <IoShuffle size={20} />,
+        path: '/list/open',
+        onlyDesktop: true,
+    },
+    {
+        name: '開催予定',
+        shortName: '開催予定',
+        icon: <IoRocket />,
+        largeIcon: <IoRocket size={20} />,
+        path: '/list/coming',
+        onlyDesktop: true,
+    },
+    {
+        name: '概要',
         shortName: '概要',
         icon: <IoInformation />,
         largeIcon: <IoInformation size={20} />,
         path: '/detail',
+        onlyDesktop: false,
     },
     {
-        name: 'アンケートのお願い',
-        shortName: 'アンケート',
+        name: 'アンケート',
+        shortName: '概要',
         icon: <IoServer />,
         largeIcon: <IoServer size={20} />,
-        path: '/form',
+        path: '/detail#form',
+        onlyDesktop: true,
+    },
+    {
+        name: '設定',
+        shortName: '設定',
+        icon: <IoSettings />,
+        largeIcon: <IoSettings size={20} />,
+        path: '/settings',
+        onlyDesktop: true,
     },
 ];
 
@@ -58,6 +117,7 @@ export default function SideBar() {
     const navigate = useNavigate();
     const eventId = location.pathname.split('/')[2];
     const { data } = useEvent(eventId);
+    const [width] = useWindowSize();
 
     function isActivePath(path: string) {
         if (path === '/')
@@ -65,7 +125,13 @@ export default function SideBar() {
                 location.pathname === `/events/${eventId}` ||
                 location.pathname === `/events/${eventId}/`
             );
-        return location.pathname === `/events/${eventId}${path}`;
+        if (width >= 768) {
+            return (
+                location.pathname === `/events/${eventId}${path}` ||
+                location.pathname === `/events/${eventId}${path}/`
+            );
+        }
+        return location.pathname.startsWith(`/events/${eventId}${path}`);
     }
 
     return (
@@ -188,20 +254,25 @@ export default function SideBar() {
             </div>
             <div className='md:hidden'>
                 <div className='fixed bottom-0 w-full left-0 flex shadow-medium items-center px-2 bg-white/60 backdrop-blur z-50 h-[4.5rem]'>
-                    {menu.map((content, index) => (
-                        <Link
-                            key={index}
-                            to={`/events/${eventId}${content.path}`}
-                            className={`flex-1 flex flex-col items-center justify-center ${
-                                isActivePath(content.path)
-                                    ? 'text-primary font-bold'
-                                    : 'text-default-500'
-                            }`}
-                        >
-                            {content.largeIcon}
-                            <p className='text-tiny'>{content.shortName}</p>
-                        </Link>
-                    ))}
+                    {menu.map(
+                        (content, index) =>
+                            !content.onlyDesktop && (
+                                <Link
+                                    key={index}
+                                    to={`/events/${eventId}${content.path}`}
+                                    className={`flex-1 flex flex-col items-center justify-center ${
+                                        isActivePath(content.path)
+                                            ? 'text-primary font-bold'
+                                            : 'text-default-500'
+                                    }`}
+                                >
+                                    {content.largeIcon}
+                                    <p className='text-tiny'>
+                                        {content.shortName}
+                                    </p>
+                                </Link>
+                            )
+                    )}
                 </div>
             </div>
         </div>
