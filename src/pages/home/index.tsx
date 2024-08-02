@@ -6,6 +6,8 @@ import HomeTopContent from './top';
 import HomeMenu from './menu';
 import TopListEntertainments from './list';
 import HomeChip from './chip';
+import NoticeSection from './notice';
+import StatusSection from './status';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
@@ -24,8 +26,10 @@ export default function Page() {
 
     return (
         <div>
+            <StatusSection data={data} />
             <HomeTopContent data={data} />
             <HomeMenu data={data} />
+            <NoticeSection />
             <TopListEntertainments eventId={eventId} data={data} />
             <HomeChip />
         </div>
