@@ -29,6 +29,10 @@ export default function Page() {
     const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
     useEffect(() => {
+        if (selectedPlace?.id === pathPlaceId) {
+            return;
+        }
+
         if (pathPlaceId && placeData) {
             const place = placeData.find((place) => place.id === pathPlaceId);
             setSelectedPlace(place || null);
@@ -46,7 +50,7 @@ export default function Page() {
                 }
             }, 1200);
         }
-    }, [pathPlaceId]);
+    }, [pathPlaceId, placeData]);
 
     if (eventError || placesError || !eventId) return <ErrorPage />;
 

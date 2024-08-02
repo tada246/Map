@@ -1,10 +1,11 @@
-<h2 align='center'><img src='./public/tane-map.png' width=120 /></h2>
+<h2 align='center'><img src='./public/tane-map.svg' width=120 /></h2>
 <h1 align='center'>TANE Map</h1>
 
 # 使用技術
 
 ## パッケージ一覧
 
+<p align="left">
 <img src='https://img.shields.io/badge/-React-333333.svg?logo=react&style=for-the-badge'/>
 <img src='https://img.shields.io/badge/-Typescript-333333.svg?logo=typescript&style=for-the-badge'/>
 <img src='https://img.shields.io/badge/-vite-333333.svg?logo=vite&style=for-the-badge'/>
@@ -15,10 +16,11 @@
 <img src='https://img.shields.io/badge/-autoprefixer-333333.svg?logo=autoprefixer&style=for-the-badge'/>
 <img src='https://img.shields.io/badge/-postcss-333333.svg?logo=postcss&style=for-the-badge'/>
 <img src='https://img.shields.io/badge/-reactrouter-333333.svg?logo=reactrouter&style=for-the-badge'/>
+</p>
 
 ## システム構成
 
-<img src='https://firebasestorage.googleapis.com/v0/b/tane-project.appspot.com/o/documents%2Fsystem-configuration-06.jpg?alt=media&token=7a9b5280-63a2-41d2-b4ea-17c64c7a3349' />
+<img src='./art/system.png' />
 
 ## その他
 
@@ -29,13 +31,16 @@
 .env ファイル
 
 ```
-VITE_API_KEY="<FirebaseのapiKey>"
-VITE_AUTH_DOMAIN="<FirebaseのauthDomain>"
-VITE_PROJECT_ID="<FirebaseのprojectId>"
-VITE_STORAGE_BUCKET="<FirebaseのstorageBucket>"
-VITE_MESSAGING_SENDER_ID="<FirebaseのmessagingSenderId>"
-VITE_APP_ID="<FirebaseのappId>"
-VITE_MEASUREMENT_ID="<FirebaseのmeasurementId>"
+VITE_API_KEY="<>"
+VITE_AUTH_DOMAIN="<>"
+VITE_PROJECT_ID="<>"
+VITE_STORAGE_BUCKET="<>"
+VITE_MESSAGING_SENDER_ID="<>"
+VITE_APP_ID="<>"
+VITE_MEASUREMENT_ID="<>"
+VITE_DATABASE_URL="<>"
+VITE_RECAPTCHA_SITE_KEY="<>"
+VITE_ANALYTICS_ID="<>"
 ```
 
 # コマンド一覧
@@ -43,13 +48,13 @@ VITE_MEASUREMENT_ID="<FirebaseのmeasurementId>"
 ## 開発環境開始
 
 ```
-yarn run dev
+npm run dev
 ```
 
 ## ビルド
 
 ```
-yarn run build
+npm run build
 ```
 
 ## デプロイ
