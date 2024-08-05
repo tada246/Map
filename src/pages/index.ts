@@ -14,3 +14,4 @@ export { default as MessagePage } from './message';
 export { default as SettingsPage } from './settings';
 export { default as ComingEntertainmentsPage } from './coming';
 export { default as OpenEntertainmentsPage } from './open';
+export { default as UnexpectedErrorPage } from './unexpected';
