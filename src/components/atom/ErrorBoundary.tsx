@@ -19,8 +19,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         return { hasError: true };
     }
 
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        console.error('Uncaught error:', error, errorInfo);
+    componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
+        // エラーログを送信する <- あとで実装
     }
 
     render() {
