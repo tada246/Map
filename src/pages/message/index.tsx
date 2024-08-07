@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 import { message_atom } from '../../store/jotai';
 import {
     collection,
-    getFirestore,
     limit,
     onSnapshot,
     orderBy,
@@ -12,24 +11,25 @@ import {
 } from 'firebase/firestore';
 import Head from '../../components/ui/Head';
 import MessageCard from './card';
+import { db } from '../../features/firebase';
 
 export default function Page() {
     const [message, setMessage] = useAtom(message_atom);
 
     function getMessages() {
-        const db = getFirestore();
         const q = query(
             collection(db, 'notices'),
-            orderBy('timestamp', 'desc'),
-            limit(10)
+            limit(4),
+            orderBy('timestamp', 'desc')
         );
 
         onSnapshot(q, (snapshot) => {
-            const messages: Notice[] = [];
-            snapshot.docs.forEach((doc) => {
-                messages.push(doc.data() as Notice);
+            const messages_data: Notice[] = [];
+            snapshot.forEach((doc) => {
+                messages_data.push(doc.data() as Notice);
             });
-            setMessage(messages);
+
+            setMessage(messages_data);
         });
     }
 
