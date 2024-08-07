@@ -29,7 +29,7 @@ export default function Page() {
                 >
                     <ResetCacheButton />
                 </CommonSettingItem>
-                <NotificationSettingButton />
+                {/* <NotificationSettingButton /> */}
             </div>
         </div>
     );
