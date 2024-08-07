@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import RequestCameraButton from '../../components/atom/RequestCameraButton';
 import ResetCacheButton from '../../components/atom/ResetCacheButton';
 import Head from '../../components/ui/Head';
@@ -31,28 +30,7 @@ export default function Page() {
                     <ResetCacheButton />
                 </CommonSettingItem>
                 <NotificationSettingButton />
-                <ErrorComponent />
             </div>
         </div>
     );
 }
-interface ErrorComponentProps {
-    shouldThrowError?: boolean;
-}
-
-const ErrorComponent: React.FC<ErrorComponentProps> = ({
-    shouldThrowError = true,
-}) => {
-    useEffect(() => {
-        if (shouldThrowError) {
-            throw new Error('これはテスト用のエラーです。');
-        }
-    }, [shouldThrowError]);
-
-    return (
-        <div>
-            <h2>エラーコンポーネント</h2>
-            <p>このコンポーネントは、マウント時にエラーをスローします。</p>
-        </div>
-    );
-};
