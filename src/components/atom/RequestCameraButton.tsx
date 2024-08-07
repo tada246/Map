@@ -11,9 +11,7 @@ export default function RequestCameraButton() {
                     track.stop();
                 });
             }
-        } catch (err) {
-            console.error('Error accessing camera: ', err);
-        }
+        } catch (_err) {}
     };
 
     return (

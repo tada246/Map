@@ -6,7 +6,6 @@ export function localStorageProvider(): Cache<any> {
         const cache_value = localStorage.getItem('app-cache') || '[]';
         map = new Map(JSON.parse(cache_value));
     } catch (_) {
-        console.log('Error while parsing cache');
         map = new Map(JSON.parse('[]'));
     }
 
