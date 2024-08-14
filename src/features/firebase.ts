@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
-import { getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
 export const firebaseConfig = {
@@ -16,11 +16,27 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig, {});
 const db = getFirestore(app);
-if (import.meta.env.DEV) window.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-    isTokenAutoRefreshEnabled: true,
-});
-const analytics = getAnalytics(app);
 
-export { db, appCheck, analytics };
+const useEmulators =
+    import.meta.env.VITE_USE_EMULATORS?.toLowerCase() === 'true';
+const isDev = import.meta.env.DEV;
+
+if (useEmulators) {
+    connectFirestoreEmulator(db, 'localhost', 8080);
+}
+
+if (isDev && !useEmulators) {
+    window.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
+
+if (!useEmulators) {
+    initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(
+            import.meta.env.VITE_RECAPTCHA_SITE_KEY
+        ),
+        isTokenAutoRefreshEnabled: true,
+    });
+    getAnalytics(app);
+}
+
+export { db };
