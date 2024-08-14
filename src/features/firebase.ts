@@ -17,9 +17,10 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig, {});
 const db = getFirestore(app);
 
-const useEmulators =
-    import.meta.env.VITE_USE_EMULATORS?.toLowerCase() === 'true';
 const isDev = import.meta.env.DEV;
+const useEmulators = !(
+    !(import.meta.env.VITE_USE_EMULATORS.toLowerCase() === 'true') && isDev
+);
 
 if (useEmulators) {
     connectFirestoreEmulator(db, 'localhost', 8080);
