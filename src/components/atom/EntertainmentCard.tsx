@@ -57,6 +57,10 @@ export default function EntertainmentCard(props: Props) {
                         height={300}
                         className='object-cover aspect-square absolute top-0 left-0 z-0'
                         isBlurred
+                        style={{
+                            width: '5rem',
+                            height: '5rem',
+                        }}
                     />
                     {!props.isList && (
                         <div className='absolute top-0 bg-secondary z-10 w-6 h-6 rounded-br-large rounded-tl-large flex justify-center items-center'>
