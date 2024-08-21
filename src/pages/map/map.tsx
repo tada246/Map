@@ -70,7 +70,6 @@ export default function MainMap(props: Props) {
 function Controls({
     zoomIn,
     zoomOut,
-    resetTransform,
 }: {
     zoomIn: () => void;
     zoomOut: () => void;
@@ -83,9 +82,6 @@ function Controls({
             </Button>
             <Button isIconOnly size='sm' onClick={() => zoomOut()}>
                 <IoRemove />
-            </Button>
-            <Button isIconOnly size='sm' onClick={() => resetTransform()}>
-                <IoScan />
             </Button>
         </div>
     );
