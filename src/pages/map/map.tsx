@@ -1,13 +1,15 @@
 import { Button } from '@nextui-org/react';
 import { Place } from '../../types/firebase';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { IoAdd, IoRemove, IoScan } from 'react-icons/io5';
+import { IoAdd, IoQrCode, IoRemove } from 'react-icons/io5';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
     imageURL: string;
     places: Place[];
     setSelectedPlace: (place: Place | null) => void;
+    eventId: string;
 };
 
 export default function MainMap(props: Props) {
@@ -16,7 +18,7 @@ export default function MainMap(props: Props) {
             <TransformWrapper initialScale={1.5} centerOnInit>
                 {(utils) => (
                     <Fragment>
-                        <Controls {...utils} />
+                        <Controls {...utils} eventId={props.eventId} />
                         <TransformComponent>
                             <div className='w-full h-[100svh] flex items-center'>
                                 <div className='relative w-[1024px] h-[1024px]'>
@@ -70,10 +72,11 @@ export default function MainMap(props: Props) {
 function Controls({
     zoomIn,
     zoomOut,
+    eventId,
 }: {
     zoomIn: () => void;
     zoomOut: () => void;
-    resetTransform: () => void;
+    eventId: string;
 }) {
     return (
         <div className='fixed p-2 rounded-medium shadow-medium right-4 md:bottom-4 bottom-[5.5rem] flex gap-2 bg-white/80 backdrop-blur-lg z-40'>
@@ -82,6 +85,14 @@ function Controls({
             </Button>
             <Button isIconOnly size='sm' onClick={() => zoomOut()}>
                 <IoRemove />
+            </Button>
+            <Button
+                isIconOnly
+                size='sm'
+                as={Link}
+                to={`/events/${eventId}/qrcode`}
+            >
+                <IoQrCode />
             </Button>
         </div>
     );
