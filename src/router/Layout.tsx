@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/base/Header';
 import SideBar from '../components/base/SideBar';
@@ -13,10 +13,6 @@ export default function Layout(props: Props) {
 
     const isNotHeader = location.pathname.startsWith('/events/');
     const isMap = /^\/events\/[a-z0-9|-]+\/map\/?$/.test(location.pathname);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [location]);
 
     if (isMap) {
         return (
