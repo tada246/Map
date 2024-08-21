@@ -112,35 +112,39 @@ export default function EntertainmentCard(props: Props) {
                 </div>
             </div>
             {!props.isCompact && entertainment_info}
-            <div className='mt-2 flex gap-2'>
-                <Button
-                    fullWidth
-                    variant='flat'
-                    color='default'
-                    onClick={() => setIsOpen(!isOpen)}
-                    size={props.isCompact ? 'sm' : 'md'}
-                >
-                    {isOpen ? '説明を閉じる' : '説明を表示'}
-                </Button>
-                {props.isList && (
-                    <Button
-                        fullWidth
-                        variant='flat'
-                        color='primary'
-                        onClick={() =>
-                            props.navigate
-                                ? props.navigate(
-                                      d?.building?.id ?? '',
-                                      d?.floor?.id ?? ''
-                                  )
-                                : null
-                        }
-                        size={props.isCompact ? 'sm' : 'md'}
-                    >
-                        マップを見る
-                    </Button>
-                )}
-            </div>
+            {(props.isList || props.d.explanation.length > 0) && (
+                <div className='mt-2 flex gap-2'>
+                    {props.d.explanation.length > 0 && (
+                        <Button
+                            fullWidth
+                            variant='flat'
+                            color='default'
+                            onClick={() => setIsOpen(!isOpen)}
+                            size={props.isCompact ? 'sm' : 'md'}
+                        >
+                            {isOpen ? '説明を閉じる' : '説明を表示'}
+                        </Button>
+                    )}
+                    {props.isList && (
+                        <Button
+                            fullWidth
+                            variant='flat'
+                            color='primary'
+                            onClick={() =>
+                                props.navigate
+                                    ? props.navigate(
+                                          d?.building?.id ?? '',
+                                          d?.floor?.id ?? ''
+                                      )
+                                    : null
+                            }
+                            size={props.isCompact ? 'sm' : 'md'}
+                        >
+                            マップを見る
+                        </Button>
+                    )}
+                </div>
+            )}
             {isOpen && (
                 <div className='mt-2 p-3 bg-default-200 rounded-large'>
                     <p className='font-bold mb-1'>イベントの説明</p>
