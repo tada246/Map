@@ -76,9 +76,7 @@ export default function InfoContent(props: Props) {
                 <Image
                     src={data.imageURL}
                     alt={data.name}
-                    width={1024}
-                    height={512}
-                    className=' aspect-video object-cover w-full rounded-t-large'
+                    className='w-full rounded-t-large aspect-auto'
                     radius='none'
                 />
                 <div className='p-5'>
