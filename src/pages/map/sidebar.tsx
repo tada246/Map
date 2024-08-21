@@ -32,6 +32,10 @@ export default function MapSideBar(props: Props) {
                             width={100}
                             height={100}
                             className='w-8 h-8 rounded-medium'
+                            style={{
+                                width: '2rem',
+                                height: '2rem',
+                            }}
                         />
                         <p className='text-[0.7rem] text-center line-clamp-1'>
                             {place.name}
