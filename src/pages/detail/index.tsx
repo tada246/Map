@@ -43,7 +43,6 @@ export default function Page() {
 
     return (
         <>
-            <div></div>
             <InfoContent data={eventData} />
             <FormContent data={formData} />
         </>
