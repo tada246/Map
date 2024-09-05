@@ -72,12 +72,18 @@ export default function InfoContent(props: Props) {
 
     return (
         <div>
-            <div className='shadow-medium rounded-large'>
+            <div className='shadow-medium rounded-large w-full'>
                 <Image
                     src={data.imageURL}
                     alt={data.name}
                     className='w-full rounded-t-large aspect-auto'
                     radius='none'
+                    style={{ width: '100%', height: 'auto' }}
+                    width='full'
+                    height='auto'
+                    classNames={{
+                        wrapper: 'w-full',
+                    }}
                 />
                 <div className='p-5'>
                     <h1 className='text-3xl font-bold'>{data.name}</h1>
