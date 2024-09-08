@@ -188,6 +188,10 @@ function DetailDrawer(props: ContentProps) {
                             width={500}
                             height={300}
                             className='w-full h-52 object-cover rounded-large mt-4'
+                            style={{
+                                height: '13rem',
+                                width: '100%',
+                            }}
                         />
                         {snap !== 1 && (
                             <Button
