@@ -1,7 +1,7 @@
 {
     "name": "map",
     "private": true,
-    "version": "0.2.5",
+    "version": "0.2.6",
     "type": "module",
     "homepage": "/",
     "scripts": {
@@ -15,7 +15,7 @@
         "autoprefixer": "^10.4.20",
         "dayjs": "^1.11.13",
         "firebase": "^10.13.1",
-        "framer-motion": "^11.5.2",
+        "framer-motion": "^11.5.4",
         "jotai": "^2.9.3",
         "postcss": "^8.4.45",
         "react": "^18.3.1",
