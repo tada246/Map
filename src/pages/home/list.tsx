@@ -204,7 +204,6 @@ function Content(props: ContentProps) {
                                     }}
                                     key={event.id}
                                     isList
-                                    showStatus
                                     isCompact
                                     navigate={(u, f) =>
                                         navigate(

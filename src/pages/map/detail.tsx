@@ -7,12 +7,14 @@ import {
     IoClose,
     IoInformationCircleOutline,
     IoRemove,
+    IoShareSocialOutline,
 } from 'react-icons/io5';
 import { Drawer } from 'vaul';
 import useWindowSize from '../../hooks/useWindowSize';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
     eventId: string;
@@ -31,6 +33,17 @@ export default function MapFloorDetail(props: Props) {
         props.selectedPlace?.id
     );
     const [width] = useWindowSize();
+    const location = useLocation();
+
+    function share() {
+        if (navigator.share) {
+            navigator.share({
+                title: `TOKO TANE Map`,
+                text: `「${props.selectedPlace?.name}」のイベント情報`,
+                url: `https://map.toko-tane.net${location.pathname}${location.search}`,
+            });
+        }
+    }
 
     if (width >= 768) {
         return (
@@ -38,6 +51,7 @@ export default function MapFloorDetail(props: Props) {
                 isLoading={isLoading}
                 data={data}
                 error={error}
+                share={share}
                 {...props}
             />
         );
@@ -48,6 +62,7 @@ export default function MapFloorDetail(props: Props) {
             isLoading={isLoading}
             data={data}
             error={error}
+            share={share}
             {...props}
         />
     );
@@ -58,6 +73,7 @@ type ContentProps = Props & {
     error: any;
     isLoading: boolean;
     isSelecting: boolean;
+    share: () => void;
 };
 
 function DetailDesktop(props: ContentProps) {
@@ -68,13 +84,16 @@ function DetailDesktop(props: ContentProps) {
 
     return (
         <div className='hidden md:block w-[28rem] h-[100svh] left-[20rem] top-0 bg-white/60 fixed backdrop-blur-lg p-6 shadow-lg overflow-y-auto'>
-            <div>
+            <div className='flex items-center gap-2'>
                 <Button
                     onClick={() => props.setSelectedPlace(null)}
                     radius='full'
                     startContent={<IoClose size={16} />}
                 >
                     <p>閉じる</p>
+                </Button>
+                <Button isIconOnly onClick={props.share} radius='full'>
+                    <IoShareSocialOutline />
                 </Button>
             </div>
             <Image
@@ -173,21 +192,32 @@ function DetailDrawer(props: ContentProps) {
                             <p className='text-xl font-bold flex-1'>
                                 {place?.name}
                             </p>
-                            <Button
-                                radius='full'
-                                variant='flat'
-                                isIconOnly
-                                size='sm'
-                                onClick={() => props.setSelectedPlace(null)}
-                            >
-                                <IoClose />
-                            </Button>
+                            <div className='flex items-center gap-2'>
+                                <Button
+                                    isIconOnly
+                                    onClick={props.share}
+                                    radius='full'
+                                >
+                                    <IoShareSocialOutline />
+                                </Button>
+                                <Button
+                                    radius='full'
+                                    isIconOnly
+                                    onClick={() => props.setSelectedPlace(null)}
+                                >
+                                    <IoClose />
+                                </Button>
+                            </div>
                         </div>
                         <Image
                             src={place?.imageURL}
                             width={500}
                             height={300}
                             className='w-full h-52 object-cover rounded-large mt-4'
+                            style={{
+                                height: '13rem',
+                                width: '100%',
+                            }}
                         />
                         {snap !== 1 && (
                             <Button

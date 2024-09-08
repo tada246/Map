@@ -1,4 +1,4 @@
-import { Image } from '@nextui-org/react';
+import { Button, Image } from '@nextui-org/react';
 import { Place } from '../../types/firebase';
 import { IoBusiness } from 'react-icons/io5';
 
@@ -12,13 +12,17 @@ export default function MapSideBar(props: Props) {
 
     return (
         <>
-            <div className='w-20 flex-col gap-4 h-[100svh] border-r border-default items-center py-4 overflow-auto hidden md:flex'>
-                <button
+            <div className='w-20 flex-col gap-4 h-[100svh] border-r border-default items-center py-4 overflow-y-auto hidden md:flex'>
+                <Button
+                    isIconOnly
+                    size='lg'
+                    color='primary'
+                    variant='flat'
                     onClick={() => props.setSelectedPlace(null)}
-                    className='w-12 h-12 rounded-large bg-primary-50 text-primary flex justify-center items-center flex-col'
+                    className='aspect-square'
                 >
                     <IoBusiness size={20} />
-                </button>
+                </Button>
                 <div className='border-b-1 border-default w-[50%]' />
                 {places.map((place, index) => (
                     <button
@@ -32,6 +36,10 @@ export default function MapSideBar(props: Props) {
                             width={100}
                             height={100}
                             className='w-8 h-8 rounded-medium'
+                            style={{
+                                width: '2rem',
+                                height: '2rem',
+                            }}
                         />
                         <p className='text-[0.7rem] text-center line-clamp-1'>
                             {place.name}

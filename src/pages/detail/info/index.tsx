@@ -7,6 +7,7 @@ import { IoLink, IoTime } from 'react-icons/io5';
 import dayjs from 'dayjs';
 import { shortLink } from '../../../features/shortLink';
 import { Event } from '../../../types/firebase';
+import Markdown from '../../../components/atom/Markdown';
 
 type Props = {
     data: Event;
@@ -72,14 +73,21 @@ export default function InfoContent(props: Props) {
 
     return (
         <div>
-            <div className='shadow-medium rounded-large'>
+            <div
+                className='shadow-medium rounded-large w-full'
+                id='about-event'
+            >
                 <Image
                     src={data.imageURL}
                     alt={data.name}
-                    width={1024}
-                    height={512}
-                    className=' aspect-video object-cover w-full rounded-t-large'
+                    className='w-full rounded-t-large aspect-auto'
                     radius='none'
+                    style={{ width: '100%', height: 'auto' }}
+                    width='full'
+                    height='auto'
+                    classNames={{
+                        wrapper: 'w-full',
+                    }}
                 />
                 <div className='p-5'>
                     <h1 className='text-3xl font-bold'>{data.name}</h1>
@@ -117,14 +125,7 @@ export default function InfoContent(props: Props) {
                 </div>
             </div>
             <div className='mt-12 px-2'>
-                <h2 className='text-2xl font-bold' id='about-event'>
-                    概要
-                </h2>
-                <div className='mt-2'>
-                    {data.overview.split('\n').map((item, index) => (
-                        <p key={index}>{item}</p>
-                    ))}
-                </div>
+                <Markdown content={data.overview} />
             </div>
             <div className='mt-12 px-2'>
                 <h2 className='text-2xl font-bold' id='about-app'>

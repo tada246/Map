@@ -7,7 +7,7 @@ import { EventCard } from './card';
 export default function Page() {
     const { data, isLoading, error } = useEvents();
 
-    if (error) {
+    if (error || (!isLoading && data && data.length === 0)) {
         return <ErrorPage />;
     }
 

@@ -7,29 +7,38 @@ import { Place } from '../../types/firebase';
 import useEntertainment from '../../hooks/useEntertainment';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import dayjs from 'dayjs';
+import useEvent from '../../hooks/useEvent';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
     const { data, isLoading, error } = usePlaces(eventId!.toString());
+    const {
+        data: eventData,
+        isLoading: eventIsLoading,
+        error: eventError,
+    } = useEvent(eventId!.toString());
 
-    if (error) return <ErrorPage />;
+    if (error || eventError) return <ErrorPage />;
 
-    if (isLoading)
+    if (isLoading || eventIsLoading)
         return (
             <div className='flex justify-center mt-10'>
                 <Spinner size='lg' />
             </div>
         );
 
-    if (!data || !eventId) return <NotFound />;
+    if (!data || !eventId || !eventData) return <NotFound />;
 
+    const date = dayjs(eventData?.date.start.seconds * 1000).format(
+        'YYYY/MM/DD'
+    );
     return (
         <>
             <Head
                 title='開催中 催し物'
                 subtitle='開催されている催し物一覧です。'
             />
-            <Content data={data} eventId={eventId} />
+            <Content data={data} eventId={eventId} eventTime={date} />
         </>
     );
 }
@@ -37,6 +46,7 @@ export default function Page() {
 type ContentProps = {
     eventId: string;
     data: Place[];
+    eventTime: string;
 };
 
 function Content(props: ContentProps) {
@@ -63,8 +73,10 @@ function Content(props: ContentProps) {
 
     function isEventStarted(startTime: Date, endTime: Date) {
         const now = dayjs();
-        const start = dayjs(startTime);
-        const end = dayjs(endTime);
+        const start = dayjs(
+            props.eventTime + dayjs(startTime).format('HH:mm:ss')
+        );
+        const end = dayjs(props.eventTime + dayjs(endTime).format('HH:mm:ss'));
         return now.isAfter(start) && now.isBefore(end);
     }
 

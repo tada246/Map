@@ -7,21 +7,30 @@ import { Place } from '../../types/firebase';
 import useEntertainment from '../../hooks/useEntertainment';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 import dayjs from 'dayjs';
+import useEvent from '../../hooks/useEvent';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
     const { data, isLoading, error } = usePlaces(eventId!.toString());
+    const {
+        data: eventData,
+        isLoading: eventIsLoading,
+        error: eventError,
+    } = useEvent(eventId!.toString());
 
-    if (error) return <ErrorPage />;
+    if (error || eventError) return <ErrorPage />;
 
-    if (isLoading)
+    if (isLoading || eventIsLoading)
         return (
             <div className='flex justify-center mt-10'>
                 <Spinner size='lg' />
             </div>
         );
 
-    if (!data || !eventId) return <NotFound />;
+    if (!data || !eventId || !eventData) return <NotFound />;
+    const date = dayjs(eventData?.date.start.seconds * 1000).format(
+        'YYYY/MM/DD'
+    );
 
     return (
         <>
@@ -29,7 +38,7 @@ export default function Page() {
                 title='開催予定 催し物'
                 subtitle='まだ開催されていない催し物一覧です。お楽しみください。'
             />
-            <Content data={data} eventId={eventId} />
+            <Content data={data} eventId={eventId} eventTime={date} />
         </>
     );
 }
@@ -37,6 +46,7 @@ export default function Page() {
 type ContentProps = {
     eventId: string;
     data: Place[];
+    eventTime: string;
 };
 
 function Content(props: ContentProps) {
@@ -62,16 +72,16 @@ function Content(props: ContentProps) {
     }
 
     // 開催予定の催し物のみを抽出
-    function isEventComing(startTime: Date) {
+    function isEventComing(startTime: number) {
         const now = dayjs();
-        const start = dayjs(startTime);
+        const start = dayjs(
+            props.eventTime + dayjs(startTime).format('HH:mm:ss')
+        );
         return start.isAfter(now);
     }
 
     data = data
-        .filter(
-            (d) => !!d && isEventComing(new Date(d.date.start.seconds * 1000))
-        )
+        .filter((d) => !!d && isEventComing(d.date.start.seconds * 1000))
         .sort((a, b) => a.date.start.seconds - b.date.start.seconds);
     const isLoading = events.some((event) => event.hook.isLoading);
 

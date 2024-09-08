@@ -57,6 +57,10 @@ export default function EntertainmentCard(props: Props) {
                         height={300}
                         className='object-cover aspect-square absolute top-0 left-0 z-0'
                         isBlurred
+                        style={{
+                            width: '5rem',
+                            height: '5rem',
+                        }}
                     />
                     {!props.isList && (
                         <div className='absolute top-0 bg-secondary z-10 w-6 h-6 rounded-br-large rounded-tl-large flex justify-center items-center'>
@@ -108,41 +112,49 @@ export default function EntertainmentCard(props: Props) {
                 </div>
             </div>
             {!props.isCompact && entertainment_info}
-            <div className='mt-2 flex gap-2'>
-                <Button
-                    fullWidth
-                    variant='flat'
-                    color='default'
-                    onClick={() => setIsOpen(!isOpen)}
-                    size={props.isCompact ? 'sm' : 'md'}
-                >
-                    {isOpen ? '説明を閉じる' : '説明を表示'}
-                </Button>
-                {props.isList && (
-                    <Button
-                        fullWidth
-                        variant='flat'
-                        color='primary'
-                        onClick={() =>
-                            props.navigate
-                                ? props.navigate(
-                                      d?.building?.id ?? '',
-                                      d?.floor?.id ?? ''
-                                  )
-                                : null
-                        }
-                        size={props.isCompact ? 'sm' : 'md'}
-                    >
-                        マップを見る
-                    </Button>
-                )}
-            </div>
+            {(props.isList || props.d.explanation.length > 0) && (
+                <div className='mt-2 flex gap-2'>
+                    {(props.isCompact || props.d.explanation.length > 0) && (
+                        <Button
+                            fullWidth
+                            variant='flat'
+                            color='default'
+                            onClick={() => setIsOpen(!isOpen)}
+                            size={props.isCompact ? 'sm' : 'md'}
+                        >
+                            {isOpen ? '説明を閉じる' : '説明を表示'}
+                        </Button>
+                    )}
+                    {props.isList && (
+                        <Button
+                            fullWidth
+                            variant='flat'
+                            color='primary'
+                            onClick={() =>
+                                props.navigate
+                                    ? props.navigate(
+                                          d?.building?.id ?? '',
+                                          d?.floor?.id ?? ''
+                                      )
+                                    : null
+                            }
+                            size={props.isCompact ? 'sm' : 'md'}
+                        >
+                            マップを見る
+                        </Button>
+                    )}
+                </div>
+            )}
             {isOpen && (
                 <div className='mt-2 p-3 bg-default-200 rounded-large'>
-                    <p className='font-bold mb-1'>イベントの説明</p>
-                    {d.explanation.split('\n').map((line, i) => (
-                        <p key={i}>{line}</p>
-                    ))}
+                    {props.d.explanation.length > 0 && (
+                        <>
+                            <p className='font-bold mb-1'>イベントの説明</p>
+                            {d.explanation.split('\n').map((line, i) => (
+                                <p key={i}>{line}</p>
+                            ))}
+                        </>
+                    )}
                     {props.isCompact && entertainment_info}
                 </div>
             )}

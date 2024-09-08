@@ -80,6 +80,7 @@ export default function Page() {
                 imageURL={eventData.mapImageURL}
                 places={placeData}
                 setSelectedPlace={setPlaceId}
+                eventId={eventId}
             />
             <MapFloorDetail
                 eventId={eventId}
