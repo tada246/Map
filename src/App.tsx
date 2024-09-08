@@ -37,7 +37,7 @@ export default function App() {
                 <Route
                     path='/events/:eventId/list'
                     element={<EntertainmentPage />}
-                />{' '}
+                />
                 <Route
                     path='/events/:eventId/list/coming'
                     element={<ComingEntertainmentsPage />}
