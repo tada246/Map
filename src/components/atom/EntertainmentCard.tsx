@@ -114,7 +114,7 @@ export default function EntertainmentCard(props: Props) {
             {!props.isCompact && entertainment_info}
             {(props.isList || props.d.explanation.length > 0) && (
                 <div className='mt-2 flex gap-2'>
-                    {props.d.explanation.length > 0 && (
+                    {(props.isCompact || props.d.explanation.length > 0) && (
                         <Button
                             fullWidth
                             variant='flat'
@@ -147,10 +147,14 @@ export default function EntertainmentCard(props: Props) {
             )}
             {isOpen && (
                 <div className='mt-2 p-3 bg-default-200 rounded-large'>
-                    <p className='font-bold mb-1'>イベントの説明</p>
-                    {d.explanation.split('\n').map((line, i) => (
-                        <p key={i}>{line}</p>
-                    ))}
+                    {props.d.explanation.length > 0 && (
+                        <>
+                            <p className='font-bold mb-1'>イベントの説明</p>
+                            {d.explanation.split('\n').map((line, i) => (
+                                <p key={i}>{line}</p>
+                            ))}
+                        </>
+                    )}
                     {props.isCompact && entertainment_info}
                 </div>
             )}
