@@ -44,16 +44,16 @@ export default function MainMap(props: Props) {
                                                     )
                                                 }
                                             >
-                                                <p className='md:text-[0.75rem] text-[0.5rem] whitespace-nowrap -translate-x-1/2 md:translate-y-4 translate-y-2 absolute left-1/2'>
+                                                <p className='md:text-[0.75rem] text-[0.5rem] whitespace-nowrap -translate-x-1/2 md:translate-y-2 translate-y-1 absolute left-1/2'>
                                                     {place.name}
                                                 </p>
-                                                <div className='absolute left-1/2 -translate-x-1/2 -translate-y-16 w-16 h-16 block'>
+                                                <div className='absolute left-1/2 -translate-x-1/2 -translate-y-full w-12 h-12 md:w-14 md:h-14 block'>
                                                     <img
                                                         src={place.imageURL}
                                                         alt=''
                                                         width='auto'
                                                         height='auto'
-                                                        className='w-16 h-16 rounded-full border-2 border-primary/50 object-cover'
+                                                        className='w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-primary/50 object-cover'
                                                     />
                                                 </div>
                                             </button>
