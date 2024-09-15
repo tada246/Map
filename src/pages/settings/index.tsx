@@ -4,6 +4,7 @@ import Head from '../../components/ui/Head';
 import useCameraPermission from '../../hooks/useCameraPermission';
 import { CameraAuthorityRequestByHandExplanation } from './camera';
 import CommonSettingItem from './common';
+import NotificationSettingButton from './notifications';
 
 export default function Page() {
     const hasCameraPermission = useCameraPermission();
@@ -28,7 +29,7 @@ export default function Page() {
                 >
                     <ResetCacheButton />
                 </CommonSettingItem>
-                {/* <NotificationSettingButton /> */}
+                <NotificationSettingButton />
             </div>
         </div>
     );
