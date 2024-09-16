@@ -331,7 +331,6 @@ function FloorMap({ floor }: { floor: DataType }) {
                         <Controls {...utils} />
                         <TransformComponent>
                             <div className='w-full aspect-[3/2] flex justify-center items-center'>
-                                {/* 720 × 480 px */}
                                 <div className='relative w-[720px] h-[480px]'>
                                     <img
                                         src={floor.mapImageURL}
