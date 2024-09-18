@@ -21,6 +21,11 @@ export default function Page() {
                 {message.map((msg) => (
                     <MessageCard key={msg.id} message={msg} />
                 ))}
+                {message.length === 0 && (
+                    <div className='text-center text-default-500'>
+                        まだアナウンスがありません。
+                    </div>
+                )}
             </div>
         </div>
     );
