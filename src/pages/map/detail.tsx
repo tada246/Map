@@ -105,7 +105,7 @@ function DetailDesktop(props: ContentProps) {
                 className='w-full aspect-video object-cover rounded-large mt-4'
                 isBlurred
             />
-            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>{' '}
+            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>
             <div className='mt-8 flex items-center h-7'>
                 <div className='w-full'>
                     <p className='text-sm text-center'>階層</p>
@@ -283,7 +283,7 @@ function DetailDrawer(props: ContentProps) {
                                                         <IoInformationCircleOutline
                                                             size={16}
                                                         />
-                                                        <p className='text-xs'>
+                                                        <p className='text-sm'>
                                                             ズームイン/ズームアウトで地図を操作できます。
                                                             <br />
                                                             <span className='flex items-center gap-1'>
@@ -342,7 +342,7 @@ function FloorMap({ floor }: { floor: DataType }) {
         <div
             className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative w-full flex items-center overflow-hidden'
             style={{
-                aspectRatio: isSmall ? 1 : 'auto',
+                aspectRatio: isSmall ? 3 / 2 : 'auto',
             }}
         >
             <TransformWrapper initialScale={1} centerOnInit>
