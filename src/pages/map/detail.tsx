@@ -306,6 +306,11 @@ function DetailDrawer(props: ContentProps) {
                                                     />
                                                 )
                                             )}
+                                            {floor.events.length === 0 && (
+                                                <div className='text-center text-default-500 py-4'>
+                                                    イベントがありません。
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
