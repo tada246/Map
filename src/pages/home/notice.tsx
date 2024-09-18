@@ -1,11 +1,10 @@
 import { Notice } from '../../types/firebase';
 import { message_type } from '../../store/notice';
 import useRelativeTime from '../../hooks/useRelativeTime';
-import { Button, Link as NextUILink } from '@nextui-org/react';
+import { Link as NextUILink } from '@nextui-org/react';
 import { Link, useParams } from 'react-router-dom';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import useMessages from '../../hooks/useMessages';
-import useNotificationPermission from '../../hooks/useNotificationPermission';
 import { NotificationPermissionAid } from '../../components/message/notification';
 
 export default function NoticeSection() {
