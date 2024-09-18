@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import useMessages from '../../hooks/useMessages';
 import useNotificationPermission from '../../hooks/useNotificationPermission';
+import { NotificationPermissionAid } from '../../components/message/notification';
 
 export default function NoticeSection() {
     // jotaiからデータを取得する
@@ -44,29 +45,6 @@ export default function NoticeSection() {
                 </div>
             </div>
             <NotificationPermissionAid />
-        </div>
-    );
-}
-
-function NotificationPermissionAid() {
-    const { permission } = useNotificationPermission();
-    const { eventId } = useParams<{ eventId: string }>();
-
-    if (permission === 'granted' || !eventId) return;
-
-    return (
-        <div className='mt-4 shadow-medium rounded-large p-4 flex items-center gap-3 justify-between'>
-            <p className='text-sm'>
-                リアルタイムの通知を受け取ることができます。
-            </p>
-            <Button
-                as={Link}
-                to={`/events/${eventId}/settings`}
-                color='primary'
-                size='sm'
-            >
-                通知設定
-            </Button>
         </div>
     );
 }
