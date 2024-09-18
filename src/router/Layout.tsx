@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Header from '../components/base/Header';
 import SideBar from '../components/base/SideBar';
 import Footer from '../components/base/Footer';
-import { GiToaster } from 'react-icons/gi';
+import { Toaster } from 'react-hot-toast';
 
 type Props = {
     children: ReactNode;
@@ -31,7 +31,7 @@ export default function Layout(props: Props) {
                 <div className='w-full max-w-2xl mx-auto md:py-12 px-4 pt-12 pb-24'>
                     {props.children}
                 </div>
-                <GiToaster />
+                <Toaster />
             </div>
         );
     }
