@@ -5,6 +5,8 @@ import {
     IoAdd,
     IoCaretDownOutline,
     IoClose,
+    IoContract,
+    IoExpand,
     IoInformationCircleOutline,
     IoRemove,
     IoShareSocialOutline,
@@ -175,6 +177,11 @@ function DetailDrawer(props: ContentProps) {
         }
     }, []);
 
+    function closeSnap() {
+        setSnap(null);
+        props.setSelectedPlace(null);
+    }
+
     return (
         <Drawer.Root
             snapPoints={['405px', 1]}
@@ -203,7 +210,7 @@ function DetailDrawer(props: ContentProps) {
                                 <Button
                                     radius='full'
                                     isIconOnly
-                                    onClick={() => props.setSelectedPlace(null)}
+                                    onClick={closeSnap}
                                 >
                                     <IoClose />
                                 </Button>
@@ -276,8 +283,14 @@ function DetailDrawer(props: ContentProps) {
                                                         <IoInformationCircleOutline
                                                             size={16}
                                                         />
-                                                        <p className='text-sm'>
+                                                        <p className='text-xs'>
                                                             ズームイン/ズームアウトで地図を操作できます。
+                                                            <br />
+                                                            <span className='flex items-center gap-1'>
+                                                                マップの拡大縮小は、
+                                                                <IoExpand />
+                                                                で大きくできます。
+                                                            </span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -307,6 +320,8 @@ function DetailDrawer(props: ContentProps) {
 }
 
 function FloorMap({ floor }: { floor: DataType }) {
+    const [isSmall, setIsSmall] = useState(true);
+
     // 同じ座標の場所をグループ化する
     const group: Map<string, Entertainment[]> = useMemo(() => {
         const map = new Map<string, Entertainment[]>();
@@ -324,11 +339,20 @@ function FloorMap({ floor }: { floor: DataType }) {
     }, [floor.events]);
 
     return (
-        <div className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative w-full flex items-center overflow-hidden'>
-            <TransformWrapper initialScale={0.8} centerOnInit>
+        <div
+            className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative w-full flex items-center overflow-hidden'
+            style={{
+                aspectRatio: isSmall ? 1 : 'auto',
+            }}
+        >
+            <TransformWrapper initialScale={1} centerOnInit>
                 {(utils) => (
                     <Fragment>
-                        <Controls {...utils} />
+                        <Controls
+                            {...utils}
+                            setIsSmall={setIsSmall}
+                            isSmall={isSmall}
+                        />
                         <TransformComponent>
                             <div className='w-full aspect-[3/2] flex justify-center items-center'>
                                 <div className='relative w-[720px] h-[480px]'>
@@ -420,10 +444,14 @@ function FloorMap({ floor }: { floor: DataType }) {
 function Controls({
     zoomIn,
     zoomOut,
+    setIsSmall,
+    isSmall,
 }: {
     zoomIn: () => void;
     zoomOut: () => void;
     resetTransform: () => void;
+    setIsSmall: (v: boolean) => void;
+    isSmall: boolean;
 }) {
     return (
         <div className=' absolute p-2 rounded-medium shadow-medium right-2 bottom-2 flex gap-2 bg-white/80 backdrop-blur-lg z-40'>
@@ -432,6 +460,9 @@ function Controls({
             </Button>
             <Button isIconOnly size='sm' onClick={() => zoomOut()}>
                 <IoRemove />
+            </Button>
+            <Button isIconOnly size='sm' onClick={() => setIsSmall(!isSmall)}>
+                {!isSmall ? <IoContract /> : <IoExpand />}
             </Button>
         </div>
     );
