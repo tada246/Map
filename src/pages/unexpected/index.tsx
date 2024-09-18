@@ -18,10 +18,7 @@ export default function UnexpectedErrorPage() {
             <h1 className='text-center font-bold text-2xl'>
                 申し訳ございません。予期せぬエラーが発生しました。
             </h1>
-            <p className='mt-2 text-center'>
-                {/* 現在エラー内容を送信しました。ご迷惑をおかけして申し訳ございません。 */}
-                リロードして再度お試しください。
-            </p>
+            <p className='mt-2 text-center'>リロードして再度お試しください。</p>
         </div>
     );
 }

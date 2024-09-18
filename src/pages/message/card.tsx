@@ -17,7 +17,7 @@ export default function MessageCard(props: Props) {
 
     return (
         <div>
-            <div className='shadow-medium bg-white rounded-t-large rounded-br-large mt-2'>
+            <div className='shadow-medium bg-white rounded-large mt-2'>
                 <div
                     className={`flex py-2 px-4 gap-2 items-center bg-${type?.color}/20 text-${type?.color} rounded-t-large`}
                 >

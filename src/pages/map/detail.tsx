@@ -5,6 +5,8 @@ import {
     IoAdd,
     IoCaretDownOutline,
     IoClose,
+    IoContract,
+    IoExpand,
     IoInformationCircleOutline,
     IoRemove,
     IoShareSocialOutline,
@@ -103,7 +105,7 @@ function DetailDesktop(props: ContentProps) {
                 className='w-full aspect-video object-cover rounded-large mt-4'
                 isBlurred
             />
-            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>{' '}
+            <h1 className='text-3xl font-bold mt-2'>{place?.name}</h1>
             <div className='mt-8 flex items-center h-7'>
                 <div className='w-full'>
                     <p className='text-sm text-center'>階層</p>
@@ -175,6 +177,11 @@ function DetailDrawer(props: ContentProps) {
         }
     }, []);
 
+    function closeSnap() {
+        setSnap(null);
+        props.setSelectedPlace(null);
+    }
+
     return (
         <Drawer.Root
             snapPoints={['405px', 1]}
@@ -203,7 +210,7 @@ function DetailDrawer(props: ContentProps) {
                                 <Button
                                     radius='full'
                                     isIconOnly
-                                    onClick={() => props.setSelectedPlace(null)}
+                                    onClick={closeSnap}
                                 >
                                     <IoClose />
                                 </Button>
@@ -278,6 +285,12 @@ function DetailDrawer(props: ContentProps) {
                                                         />
                                                         <p className='text-sm'>
                                                             ズームイン/ズームアウトで地図を操作できます。
+                                                            <br />
+                                                            <span className='flex items-center gap-1'>
+                                                                マップの拡大縮小は、
+                                                                <IoExpand />
+                                                                で大きくできます。
+                                                            </span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -293,6 +306,11 @@ function DetailDrawer(props: ContentProps) {
                                                     />
                                                 )
                                             )}
+                                            {floor.events.length === 0 && (
+                                                <div className='text-center text-default-500 py-4'>
+                                                    イベントがありません。
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
@@ -307,6 +325,8 @@ function DetailDrawer(props: ContentProps) {
 }
 
 function FloorMap({ floor }: { floor: DataType }) {
+    const [isSmall, setIsSmall] = useState(true);
+
     // 同じ座標の場所をグループ化する
     const group: Map<string, Entertainment[]> = useMemo(() => {
         const map = new Map<string, Entertainment[]>();
@@ -324,78 +344,98 @@ function FloorMap({ floor }: { floor: DataType }) {
     }, [floor.events]);
 
     return (
-        <div className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative overflow-hidden'>
-            <TransformWrapper initialScale={1.5} centerOnInit>
+        <div
+            className='mt-2 outline outline-1 outline-black/10 rounded-medium bg-white relative w-full flex items-center overflow-hidden'
+            style={{
+                aspectRatio: isSmall ? 3 / 2 : 'auto',
+            }}
+        >
+            <TransformWrapper initialScale={1} centerOnInit>
                 {(utils) => (
                     <Fragment>
-                        <Controls {...utils} />
+                        <Controls
+                            {...utils}
+                            setIsSmall={setIsSmall}
+                            isSmall={isSmall}
+                        />
                         <TransformComponent>
-                            <div className='relative'>
-                                <img
-                                    src={floor.mapImageURL}
-                                    alt=''
-                                    className='w-full aspect-[3/2] object-cover object-center'
-                                />
-                                <div className='w-full h-full absolute top-0 left-0'>
-                                    {/* groupを表示 */}
-                                    {Array.from(group.values()).map(
-                                        (places) =>
-                                            places[0].location && (
-                                                <div key={places[0].id}>
-                                                    <div
-                                                        className='p-1 absolute bg-primary rounded-full -translate-x-1/2 -translate-y-1/2 w-3 h-3'
-                                                        style={{
-                                                            left: `${places[0].location.x}%`,
-                                                            top: `${places[0].location.y}%`,
-                                                        }}
-                                                    />
-                                                    <div
-                                                        className='absolute -translate-x-1/2 -translate-y-10 w-10 h-10'
-                                                        style={{
-                                                            left: `${places[0].location.x}%`,
-                                                            top: `${places[0].location.y}%`,
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={
-                                                                places[0]
-                                                                    .imageURL
-                                                            }
-                                                            width={16}
-                                                            height={16}
-                                                            className='w-10 h-10 border-2 border-primary rounded-full bg-white shadow-medium object-cover object-center'
+                            <div className='w-full aspect-[3/2] flex justify-center items-center'>
+                                <div className='relative w-[720px] h-[480px]'>
+                                    <img
+                                        src={floor.mapImageURL}
+                                        alt=''
+                                        className='w-[720px] h-[480px] object-cover object-center'
+                                    />
+                                    <div className='w-full h-full absolute top-0 left-0'>
+                                        {/* groupを表示 */}
+                                        {Array.from(group.values()).map(
+                                            (places) =>
+                                                places[0].location && (
+                                                    <div key={places[0].id}>
+                                                        <div
+                                                            className='p-1 absolute bg-primary rounded-full -translate-x-1/2 -translate-y-1/2 w-3 h-3'
+                                                            style={{
+                                                                left: `${places[0].location.x}%`,
+                                                                top: `${places[0].location.y}%`,
+                                                            }}
                                                         />
+                                                        <div
+                                                            className='absolute -translate-x-1/2 -translate-y-10 w-10 h-10'
+                                                            style={{
+                                                                left: `${places[0].location.x}%`,
+                                                                top: `${places[0].location.y}%`,
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={
+                                                                    places[0]
+                                                                        .imageURL
+                                                                }
+                                                                width={16}
+                                                                height={16}
+                                                                className='w-10 h-10 border-2 border-primary rounded-full bg-white shadow-medium object-cover object-center'
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className='absolute -translate-x-1/2 translate-y-2 md:text-[0.5rem] text-[0.5rem] max-w-10 line-clamp-1'
+                                                            style={{
+                                                                left: `${places[0].location.x}%`,
+                                                                top: `${places[0].location.y}%`,
+                                                            }}
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    places[0]
+                                                                        .place
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className='absolute -translate-x-6 -translate-y-[3.5rem] flex gap-0.5 flex-col bg-white rounded-full p-0.5'
+                                                            style={{
+                                                                left: `${places[0].location.x}%`,
+                                                                top: `${places[0].location.y}%`,
+                                                            }}
+                                                        >
+                                                            {places.map(
+                                                                (p, i) => (
+                                                                    <div
+                                                                        key={i}
+                                                                        className='text-[0.5rem] bg-secondary text-white w-3 h-3 flex justify-center items-center rounded-full'
+                                                                    >
+                                                                        <p className='text-center'>
+                                                                            {
+                                                                                p.order
+                                                                            }
+                                                                        </p>
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        className='absolute -translate-x-1/2 translate-y-2 md:text-[0.5rem] text-[0.5rem] max-w-10 line-clamp-1'
-                                                        style={{
-                                                            left: `${places[0].location.x}%`,
-                                                            top: `${places[0].location.y}%`,
-                                                        }}
-                                                    >
-                                                        <p>{places[0].place}</p>
-                                                    </div>
-                                                    <div
-                                                        className='absolute -translate-x-6 -translate-y-[3.5rem] flex gap-0.5 flex-col bg-white rounded-full p-0.5'
-                                                        style={{
-                                                            left: `${places[0].location.x}%`,
-                                                            top: `${places[0].location.y}%`,
-                                                        }}
-                                                    >
-                                                        {places.map((p, i) => (
-                                                            <div
-                                                                key={i}
-                                                                className='text-[0.5rem] bg-secondary text-white w-3 h-3 flex justify-center items-center rounded-full'
-                                                            >
-                                                                <p className='text-center'>
-                                                                    {p.order}
-                                                                </p>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )
-                                    )}
+                                                )
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </TransformComponent>
@@ -409,10 +449,14 @@ function FloorMap({ floor }: { floor: DataType }) {
 function Controls({
     zoomIn,
     zoomOut,
+    setIsSmall,
+    isSmall,
 }: {
     zoomIn: () => void;
     zoomOut: () => void;
     resetTransform: () => void;
+    setIsSmall: (v: boolean) => void;
+    isSmall: boolean;
 }) {
     return (
         <div className=' absolute p-2 rounded-medium shadow-medium right-2 bottom-2 flex gap-2 bg-white/80 backdrop-blur-lg z-40'>
@@ -421,6 +465,9 @@ function Controls({
             </Button>
             <Button isIconOnly size='sm' onClick={() => zoomOut()}>
                 <IoRemove />
+            </Button>
+            <Button isIconOnly size='sm' onClick={() => setIsSmall(!isSmall)}>
+                {!isSmall ? <IoContract /> : <IoExpand />}
             </Button>
         </div>
     );

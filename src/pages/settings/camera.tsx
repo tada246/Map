@@ -7,8 +7,10 @@ import {
     Button,
     useDisclosure,
 } from '@nextui-org/react';
+import useCameraPermission from '../../hooks/useCameraPermission';
+import CommonSettingItem from './common';
 
-export function CameraAuthorityRequestByHandExplanation() {
+function CameraAuthorityRequestByHandExplanation() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const content: { title: string; way: string[] }[] = [
@@ -139,5 +141,36 @@ export function CameraAuthorityRequestByHandExplanation() {
                 </ModalContent>
             </Modal>
         </>
+    );
+}
+
+export default function RequestCameraButton() {
+    const hasCameraPermission = useCameraPermission();
+    const requestCameraPermission = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+            });
+            if (stream) {
+                stream.getTracks().forEach((track) => {
+                    track.stop();
+                });
+            }
+        } catch (_err) {}
+    };
+
+    return (
+        <CommonSettingItem
+            title='カメラ権限'
+            subtitle='ココドコ機能でカメラを使用するために必要です。'
+            show={!hasCameraPermission}
+        >
+            <div className='flex gap-2'>
+                <Button onClick={() => requestCameraPermission()}>
+                    カメラの権限を要求
+                </Button>
+                <CameraAuthorityRequestByHandExplanation />
+            </div>
+        </CommonSettingItem>
     );
 }
