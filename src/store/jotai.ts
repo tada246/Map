@@ -2,4 +2,4 @@
 import { atom } from 'jotai';
 import { Notice } from '../types/firebase';
 
-export const message_atom = atom<Notice[]>([]);
+export const message_atom = atom<Notice[] | undefined>(undefined);
