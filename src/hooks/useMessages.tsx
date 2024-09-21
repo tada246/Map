@@ -28,6 +28,19 @@ export default function useMessages() {
         onSnapshot(q, (snapshot) => {
             const messages_data: Notice[] = [];
             snapshot.forEach((doc) => {
+                const data = doc.data();
+
+                if (!data) return;
+                if (
+                    !data.id ||
+                    !data.timestamp ||
+                    !data.title ||
+                    !data.type ||
+                    !data.writer ||
+                    !data.content
+                )
+                    return;
+
                 messages_data.push(doc.data() as Notice);
             });
 
