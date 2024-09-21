@@ -55,7 +55,6 @@ function Content(props: ContentProps) {
         if (event.hook.data) {
             for (const floor of event.hook.data) {
                 for (const entertainment of floor.events) {
-                    console.log(entertainment);
                     data.push({
                         building: event.place,
                         floor: floor,
