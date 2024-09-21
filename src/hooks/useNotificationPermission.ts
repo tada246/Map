@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const useNotificationPermission = () => {
-    const [permission, setPermission] = useState(Notification.permission);
+    const [permission, setPermission] = useState<NotificationPermission>();
 
     useEffect(() => {
         const handlePermissionChange = () => {

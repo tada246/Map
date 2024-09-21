@@ -3,7 +3,7 @@ import useSWRImmutable from 'swr/immutable';
 import { db } from '../features/firebase';
 import { Entertainment, Floor } from '../types/firebase';
 
-interface DataType extends Floor {
+export interface DataType extends Floor {
     events: Entertainment[];
 }
 

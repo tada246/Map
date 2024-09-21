@@ -18,7 +18,7 @@ export default function Page() {
             />
             <NotificationPermissionAid />
             <div className='mt-10 flex flex-col gap-7'>
-                {message.map((msg) => (
+                {message?.map((msg) => (
                     <MessageCard key={msg.id} message={msg} />
                 ))}
                 {message.length === 0 && (
