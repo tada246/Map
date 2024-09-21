@@ -3,8 +3,8 @@ import usePlaces from '../../hooks/usePlaces';
 import { ErrorPage, NotFound } from '..';
 import { Divider, Spinner } from '@nextui-org/react';
 import Head from '../../components/ui/Head';
-import { Place } from '../../types/firebase';
-import useEntertainment from '../../hooks/useEntertainment';
+import { Entertainment, Place } from '../../types/firebase';
+import useEntertainment, { DataType } from '../../hooks/useEntertainment';
 import EntertainmentCard from '../../components/atom/EntertainmentCard';
 
 export default function Page() {
@@ -38,6 +38,11 @@ type ContentProps = {
     data: Place[];
 };
 
+interface EntertainmentData extends Entertainment {
+    building: Place;
+    floor: DataType;
+}
+
 function Content(props: ContentProps) {
     const events = props.data.map((place) => ({
         hook: useEntertainment(props.eventId, place.id),
@@ -45,11 +50,12 @@ function Content(props: ContentProps) {
     }));
     const navigate = useNavigate();
 
-    let data = [];
+    let data: EntertainmentData[] = [];
     for (const event of events) {
         if (event.hook.data) {
             for (const floor of event.hook.data) {
                 for (const entertainment of floor.events) {
+                    console.log(entertainment);
                     data.push({
                         building: event.place,
                         floor: floor,
