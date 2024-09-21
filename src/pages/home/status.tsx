@@ -1,18 +1,26 @@
 import { Button } from '@nextui-org/react';
-import getEventStatus from '../../features/getEventStatus';
 import { Event } from '../../types/firebase';
 import { Link } from 'react-router-dom';
 import { IoArrowBack } from 'react-icons/io5';
+import dayjs from 'dayjs';
 
 type Props = {
     data: Event;
 };
 
 export default function StatusSection(props: Props) {
-    const status = getEventStatus({
-        start: new Date(props.data.date.start.seconds * 1000),
-        end: new Date(props.data.date.end.seconds * 1000),
-    });
+    let status: '開催中' | '終了' | '開催前';
+
+    if (
+        dayjs().format('YYYY-MM-DD') ===
+        dayjs(props.data.date.start.seconds * 1000).format('YYYY-MM-DD')
+    ) {
+        status = '開催中';
+    } else if (dayjs().isAfter(dayjs(props.data.date.start.seconds * 1000))) {
+        status = '終了';
+    } else {
+        status = '開催前';
+    }
 
     if (status === '開催中') return;
 
