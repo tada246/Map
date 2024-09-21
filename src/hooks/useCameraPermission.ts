@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
 export default function useCameraPermission() {
-    const [hasCameraPermission, setHasCameraPermission] = useState(false);
+    const [hasCameraPermission, setHasCameraPermission] =
+        useState<boolean>(false);
 
     useEffect(() => {
         const checkCameraPermission = async () => {
