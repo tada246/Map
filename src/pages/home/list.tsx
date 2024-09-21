@@ -123,7 +123,7 @@ function Content(props: ContentProps) {
         const eventDate = dayjs(
             new Date(props.eventData.date.start.seconds * 1000)
         ).format('YYYY-MM-DD');
-        const nearestKey = keys.reduce((a, b) => {
+        const nearestKey = keys?.reduce((a, b) => {
             const aDiff = Math.abs(now.diff(dayjs(`${eventDate} ${a}`)));
             const bDiff = Math.abs(now.diff(dayjs(`${eventDate} ${b}`)));
             return aDiff < bDiff ? a : b;
