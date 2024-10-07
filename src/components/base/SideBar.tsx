@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import {
     IoArrowBackOutline,
     IoArrowForwardOutline,
+    IoBalloon,
     IoHelp,
     IoHome,
     IoInformation,
@@ -61,6 +62,14 @@ const menu: Menu[] = [
         largeIcon: <IoMegaphone size={20} />,
         path: '/messages',
         onlyDesktop: false,
+    },
+    {
+        name: 'スタンプラリー',
+        shortName: 'スタンプラリー',
+        icon: <IoBalloon />,
+        largeIcon: <IoBalloon size={20} />,
+        path: '/stampRally',
+        onlyDesktop: true,
     },
     {
         name: '催し物リスト',
