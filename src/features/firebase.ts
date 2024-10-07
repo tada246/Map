@@ -15,15 +15,10 @@ export const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig, {});
-const db = getFirestore(app);
 
 const isDev = import.meta.env.DEV;
 const useEmulators =
     import.meta.env.VITE_USE_EMULATORS.toLowerCase() === 'true' && isDev;
-
-if (useEmulators) {
-    connectFirestoreEmulator(db, 'localhost', 8080);
-}
 
 if (isDev && !useEmulators) {
     window.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
@@ -37,6 +32,12 @@ if (!useEmulators) {
         isTokenAutoRefreshEnabled: true,
     });
     getAnalytics(app);
+}
+
+const db = getFirestore(app);
+
+if (useEmulators) {
+    connectFirestoreEmulator(db, 'localhost', 8080);
 }
 
 export { db };
