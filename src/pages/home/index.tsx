@@ -8,6 +8,7 @@ import TopListEntertainments from './list';
 import HomeChip from './chip';
 import NoticeSection from './notice';
 import StatusSection from './status';
+import StampRallyAid from './stampRallyAid';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
@@ -30,6 +31,7 @@ export default function Page() {
             <HomeTopContent data={data} />
             <HomeMenu data={data} />
             <NoticeSection />
+            <StampRallyAid data={data} />
             <TopListEntertainments eventId={eventId} data={data} />
             <HomeChip />
         </div>
