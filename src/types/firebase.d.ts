@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
+import { message_type, writer } from '../data/notice';
 import { authority } from '../store/authority';
-import { message_type, writer } from '../store/notice';
 
 type AdminUser = {
     id: string;
@@ -23,6 +23,7 @@ type Event = {
     imageURL: string;
     overview: string;
     mapImageURL: string;
+    isStampRallyEnabled: boolean;
 };
 
 type Image = {
@@ -83,6 +84,19 @@ type Entertainment = {
     };
 };
 
+type StampRally = {
+    id: string;
+    name: string;
+    hint: string;
+    order: number;
+    imageURL: string;
+};
+
+type StampRallySecret = {
+    id: string;
+    secretId: string;
+};
+
 export type {
     AdminUser,
     Event,
@@ -92,4 +106,6 @@ export type {
     Place,
     Floor,
     Entertainment,
+    StampRally,
+    StampRallySecret,
 };
