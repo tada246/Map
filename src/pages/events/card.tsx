@@ -13,7 +13,7 @@ import {
 import { IoLink, IoMap } from 'react-icons/io5';
 import getEventStatus from '../../features/getEventStatus';
 import dayjs from 'dayjs';
-import createCalendarLink from '../../features/createCalendarLink';
+import { createCalendarLink } from '../../features/createLink';
 
 type Props = {
     event: Event;
@@ -26,7 +26,8 @@ export function EventCard(props: Props) {
         event.name,
         event.overview,
         new Date(event.date.start.seconds * 1000),
-        new Date(event.date.end.seconds * 1000)
+        new Date(event.date.end.seconds * 1000),
+        event.place?.name || undefined
     );
 
     const eventStatus = getEventStatus({
@@ -56,6 +57,11 @@ export function EventCard(props: Props) {
                                     'YYYY/MM/DD'
                                 )}
                             </Chip>
+                            {event.place && (
+                                <Chip size='sm' className='px-2'>
+                                    {event.place?.name}
+                                </Chip>
+                            )}
                         </div>
                     </div>
                 </div>
