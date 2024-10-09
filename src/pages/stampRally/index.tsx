@@ -5,7 +5,6 @@ import { ErrorPage } from '..';
 import useStampRally from '../../hooks/useStampRally';
 import { useEffect, useState } from 'react';
 import { Button, Image } from '@nextui-org/react';
-import { IoQrCode } from 'react-icons/io5';
 import StampRallyScan from './scan';
 import StampRallyResult from './resultQR';
 
