@@ -23,7 +23,7 @@ export default function useStampRally(eventId?: string) {
         return { data: undefined, isLoading: false, error: 'not event id' };
 
     const { data, isLoading, error } = useSWRImmutable(
-        ['/api/forms', eventId],
+        ['/api/stampRally', eventId],
         ([_, key]) => getStampRallies(key),
         {
             revalidateIfStale: false,
