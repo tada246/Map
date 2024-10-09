@@ -16,6 +16,7 @@ import {
     ComingEntertainmentsPage,
     OpenEntertainmentsPage,
     UnexpectedErrorPage,
+    StampRallyPage,
 } from './pages';
 import ErrorBoundary from './components/atom/ErrorBoundary';
 
@@ -29,6 +30,10 @@ export default function App() {
                 <Route path='/privacy' element={<PrivacyPage />} />
                 <Route path='/events/:eventId' element={<HomePage />} />
                 <Route path='/events/:eventId/map' element={<MapPage />} />
+                <Route
+                    path='/events/:eventId/stampRally'
+                    element={<StampRallyPage />}
+                />
                 <Route
                     path='/events/:eventId/detail'
                     element={<DetailPage />}
