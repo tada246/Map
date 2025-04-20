@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Button, Image } from '@nextui-org/react';
 import StampRallyScan from './scan';
 import StampRallyResult from './resultQR';
+import { IoBalloon } from 'react-icons/io5';
 
 export default function Page() {
     const { eventId } = useParams<{ eventId: string }>();
@@ -84,14 +85,30 @@ export default function Page() {
         }
     }
 
-    console.log(getStampRallyAllData());
-
     if (error || stampRallyError) {
         return <ErrorPage />;
     }
 
     if (isLoading || !data || stampRallyIsLoading || !stampRallyData) {
         return <p className='text-center mt-12'>ロード中...</p>;
+    }
+
+    if (!data.isStampRallyEnabled) {
+        return (
+            <>
+                <Head
+                    title='スタンプラリー'
+                    subtitle='スタンプラリーQRコードを読み取って参加しましょう！'
+                />
+                <div className='mt-10'>
+                    <IoBalloon size={64} className='mx-auto' />
+                    <p className='text-3xl font-bold text-center mt-5'>残念</p>
+                    <p className='text-center mt-1'>
+                        今回のイベントではスタンプラリーは、やってないみたいです
+                    </p>
+                </div>
+            </>
+        );
     }
 
     return (

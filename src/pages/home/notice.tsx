@@ -27,6 +27,11 @@ export default function NoticeSection() {
                             eventId={eventId}
                         />
                     ))}
+                    {message.length === 0 && (
+                        <p className='text-default-600 text-center text-sm py-2'>
+                            今日のアナウンスはありません
+                        </p>
+                    )}
                 </ul>
                 <div className='px-4 py-2 border-t-1 flex justify-between'>
                     <p className='text-sm text-default-600'>

@@ -23,7 +23,7 @@ export default function Page() {
                 ))}
                 {message.length === 0 && (
                     <div className='text-center text-default-500'>
-                        まだアナウンスがありません。
+                        今日のアナウンスはありません
                     </div>
                 )}
             </div>

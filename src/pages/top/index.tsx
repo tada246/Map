@@ -130,6 +130,11 @@ export default function Page() {
                     ></Image>
                 </div>
             </div>
+            {/* <div className='mt-24'>
+                <h2 className='border-l-4 border-primary-700 pl-3 text-3xl font-bold'>
+                    初代プロジェクト代表からのメッセージ
+                </h2>
+            </div> */}
             <div className='mt-24'>
                 <h2 className='border-l-4 border-primary-700 pl-3 text-3xl font-bold'>
                     Q&A
